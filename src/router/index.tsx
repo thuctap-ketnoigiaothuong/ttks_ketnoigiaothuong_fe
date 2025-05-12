@@ -18,6 +18,7 @@ import ContractPage from "../pages/admin/ContractPage";
 import PaymentPage from "../pages/admin/PaymentPage";
 import ReportPage from "../pages/admin/ReportPage";
 import SettingPage from "../pages/admin/SettingPage";
+import CompleteProfilePage from "../pages/CompleteProfilePage";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
                 children: [
                     { path: "login", Component: LoginPage },
                     { path: "register", Component: RegisterPage },
+                    { path: "complete-profile", Component: CompleteProfilePage },
                 ]
             },
             { path: "*", Component: NotFoundPage },

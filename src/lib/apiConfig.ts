@@ -7,4 +7,9 @@ export const API_ENDPOINTS = {
     logout: `${API_BASE_URL}/auth/logout`,
     me: `${API_BASE_URL}/auth/me`,
 
+    updateUser: (user_id: number) => `${API_BASE_URL}/users/update/${user_id}`,
+
+    completeProfile: `${API_BASE_URL}/company/create`,
+    getInfoByEmailPhone:`${API_BASE_URL}/company/get-by-email-phone`,
+
 }
