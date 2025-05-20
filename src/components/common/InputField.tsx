@@ -9,6 +9,7 @@ export default function InputField({
     type = 'text',
     className = '',
     placeholder = '',
+    readOnly,
 }: {
     label?: string;
     name: string;
@@ -18,17 +19,24 @@ export default function InputField({
     type?: string;
     className?: string;
     placeholder?: string;
+    readOnly?: boolean;
 }) {
     return (
         <div className={className}>
-            {label && <label className="mb-2 block text-sm font-medium text-gray-700">{label}</label>}
+            {label && (
+                <label htmlFor={name} className="mb-2 block text-sm font-medium text-gray-700">
+                    {label}
+                </label>
+            )}
             <input
+                id={name}
                 type={type}
                 name={name}
                 value={value}
                 onChange={onChange}
                 required={required}
                 placeholder={placeholder}
+                readOnly={readOnly}
                 className="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-blue-400 focus:outline-none"
             />
         </div>

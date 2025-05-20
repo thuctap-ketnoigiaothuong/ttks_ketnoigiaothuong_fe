@@ -22,6 +22,11 @@ export default [
             'jsx-a11y': eslintPluginJsxA11y,
             prettier: eslintPluginPrettier,
         },
+        settings: {
+            react: {
+                version: 'detect',
+            },
+        },
         rules: {
             ...tseslint.configs.recommended.rules,
             ...eslintPluginReact.configs.recommended.rules,
