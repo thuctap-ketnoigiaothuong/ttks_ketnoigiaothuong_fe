@@ -33,29 +33,29 @@ export function TopNavigationBar() {
       <div className="flex gap-4 items-start self-stretch my-auto min-w-60 max-md:max-w-full">
         <div className="flex gap-1 items-center">
           <span className="self-stretch my-auto text-neutral-950">Country: Vietnam</span>
-          <img src="/image/arrowdown.png" className="w-3 aspect-square" alt="Country selector" />
+          <img src="/header/arrowdown.png" className="w-3 aspect-square" alt="Country selector" />
         </div>
         <div className="flex gap-1 items-center">
           <span className="self-stretch my-auto text-neutral-950">Language: Tiếng Việt</span>
-          <img src="/image/arrowdown.png" className="w-3 aspect-square" alt="Language selector" />
+          <img src="/header/arrowdown.png" className="w-3 aspect-square" alt="Language selector" />
         </div>
         <div className="flex gap-1 items-center">
           <span className="self-stretch my-auto text-neutral-950">Currency: VND</span>
-          <img src="/image/arrowdown.png" className="w-3 aspect-square" alt="Currency selector" />
+          <img src="/header/arrowdown.png" className="w-3 aspect-square" alt="Currency selector" />
         </div>
       </div>
 
       {/* Right section: contact, messages, user */}
       <div className="flex flex-wrap gap-4 items-center self-stretch my-auto min-w-60 max-md:max-w-full">
         <a href="tel:+3215287667" className="flex gap-2 items-center font-semibold text-blue-600">
-          <img src="/image/phone.png" className="w-4 aspect-square" alt="Phone" />
+          <img src="/header/phone.png" className="w-4 aspect-square" alt="Phone" />
           <span>+32 (0) 15 28 76 67</span>
         </a>
 
         <div className="w-px h-7 bg-zinc-700" />
 
         <button className="flex gap-1 items-center whitespace-nowrap">
-          <img src="/image/message.png" className="w-5 aspect-square" alt="Messages" />
+          <img src="/header/message.png" className="w-5 aspect-square" alt="Messages" />
           <span className="text-neutral-950">Messages</span>
         </button>
 
@@ -63,10 +63,13 @@ export function TopNavigationBar() {
 
         {userName ? (
           // Logged in
-          <div className="flex gap-1 items-center whitespace-nowrap">
-            <img src="/image/user.png" className="w-5 aspect-square" alt="User" />
+          <div 
+            //onClick={() => navigate("/...")} // Đổi lại đường dẫn vào trang dashboard/hồ sơ người dùng
+            className="flex gap-1 items-center whitespace-nowrap"
+          >
+            <img src="/header/user.png" className="w-5 aspect-square" alt="User" />
             <span className="text-neutral-950">{userName}</span>
-            <img src="/image/arrowdown.png" className="w-3 aspect-square" alt="Menu" />
+            <img src="/header/arrowdown.png" className="w-3 aspect-square" alt="Menu" />
           </div>
         ) : (
           // Chưa login

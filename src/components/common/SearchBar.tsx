@@ -21,7 +21,7 @@ export function SearchBar() {
       <div className="font-bold text-2xl text-blue-600">Kết Nối Giao Thương</div>
 
       <div className="flex flex-wrap gap-2 items-center self-stretch px-4 py-3 my-auto text-sm leading-6 bg-white rounded-lg border border-solid border-[color:var(--Light-Colors-Platinum,#EAECEE)] min-w-60 text-zinc-500 w-[543px] max-md:max-w-full">
-        <img src="/image/search.png" className="w-6 aspect-square" alt="Search" />
+        <img src="/header/search.png" className="w-6 aspect-square" alt="Search" />
 
         <select
           value={searchType}

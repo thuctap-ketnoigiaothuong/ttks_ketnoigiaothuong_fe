@@ -49,7 +49,7 @@ export function CategoryNav() {
           className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap"
         >
           <img
-            src="/image/compare.png"
+            src="/header/compare.png"
             className="object-contain self-center w-6 rounded-full aspect-[1.17]"
             alt="Compare"
           />
@@ -61,7 +61,7 @@ export function CategoryNav() {
           className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap"
         >
           <img
-            src="/image/star.png"
+            src="/header/star.png"
             className="object-contain self-center w-6 rounded-full aspect-[1.17]"
             alt="Favorites"
           />
@@ -73,7 +73,7 @@ export function CategoryNav() {
           className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap"
         >
           <img
-            src="/image/cart.png"
+            src="/header/cart.png"
             className="object-contain self-center w-6 rounded-full aspect-[1.17]"
             alt="Cart"
           />
