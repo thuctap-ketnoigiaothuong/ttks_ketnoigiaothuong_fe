@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useCart } from '../../context/CardContext.tsx';
 
 interface ProductCardProps {

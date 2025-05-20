@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 import api from '../../lib/axios';
 import { API_ENDPOINTS } from '../../lib/apiConfig';
@@ -28,7 +28,7 @@ export function TopNavigationBar() {
     }, []);
 
     return (
-        <header className="flex flex-wrap gap-10 justify-between items-center px-24 py-2 w-full text-sm leading-6 bg-slate-50 min-h-12 text-neutral-950 max-md:px-5 max-md:max-w-full">
+        <header className="flex flex-wrap gap-10 justify-between items-center px-4 py-2 w-full text-sm leading-6 bg-slate-50 min-h-12 text-neutral-950 max-md:px-5 max-md:max-w-full">
             {/* Left section: Country, Language, Currency */}
             <div className="flex gap-4 items-start self-stretch my-auto min-w-60 max-md:max-w-full">
                 <div className="flex gap-1 items-center">
@@ -63,14 +63,14 @@ export function TopNavigationBar() {
 
                 {userName ? (
                     // Logged in
-                    <div
-                        //onClick={() => navigate("/...")} // Đổi lại đường dẫn vào trang dashboard/hồ sơ người dùng
+                    <button
+                        onClick={() => navigate('/profiles')} // Đổi lại đường dẫn vào trang dashboard/hồ sơ người dùng
                         className="flex gap-1 items-center whitespace-nowrap"
                     >
                         <img src="/header/user.png" className="w-5 aspect-square" alt="User" />
                         <span className="text-neutral-950">{userName}</span>
                         <img src="/header/arrowdown.png" className="w-3 aspect-square" alt="Menu" />
-                    </div>
+                    </button>
                 ) : (
                     // Chưa login
                     <div className="flex gap-3">

@@ -6,7 +6,7 @@ import Footer from '../components/common/Footer';
 
 export default function AppLayout() {
     return (
-        <div>
+        <div className="w-[1240px] mx-auto">
             <TopNavigationBar />
             <SearchBar />
             <CategoryNav />

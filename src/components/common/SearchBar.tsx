@@ -1,5 +1,5 @@
 import { useState } from 'react';
-//import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router";
 
 export function SearchBar() {
     const [keyword, setKeyword] = useState('');
@@ -17,7 +17,7 @@ export function SearchBar() {
     // };
 
     return (
-        <section className="flex flex-wrap gap-10 justify-between items-center px-24 py-4 w-full bg-white min-h-20 max-md:px-5 max-md:max-w-full">
+        <section className="flex flex-wrap gap-10 justify-between items-center px-4 py-4 w-full bg-white min-h-20 max-md:px-5 max-md:max-w-full">
             <div className="font-bold text-2xl text-blue-600">Kết Nối Giao Thương</div>
 
             <div className="flex flex-wrap gap-2 items-center self-stretch px-4 py-3 my-auto text-sm leading-6 bg-white rounded-lg border border-solid border-[color:var(--Light-Colors-Platinum,#EAECEE)] min-w-60 text-zinc-500 w-[543px] max-md:max-w-full">
