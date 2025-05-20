@@ -12,4 +12,10 @@ export const API_ENDPOINTS = {
     completeProfile: `${API_BASE_URL}/company/create`,
     getInfoByEmailPhone:`${API_BASE_URL}/company/get-by-email-phone`,
 
+    products: `${API_BASE_URL}/products`,
+    categories: `${API_BASE_URL}/categories`,
+    events: `${API_BASE_URL}/events`,
+    articles: `${API_BASE_URL}/articles`,
+    brands: `${API_BASE_URL}/brands`,
+
 }
