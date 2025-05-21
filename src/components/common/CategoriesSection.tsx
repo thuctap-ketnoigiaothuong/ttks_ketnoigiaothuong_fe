@@ -19,28 +19,28 @@ const fallbackCategories: Category[] = [
         categoryID: 1,
         categoryName: 'Photovoltaics',
         categoryImage: '/categories/photo.png',
-        parentCategoryID: null,
+        parentCategoryID: 1,
         parentCategoryName: null,
     },
     {
         categoryID: 2,
         categoryName: 'Electronics',
         categoryImage: '/categories/electronics.png',
-        parentCategoryID: null,
+        parentCategoryID: 2,
         parentCategoryName: null,
     },
     {
         categoryID: 3,
         categoryName: 'Light Sources',
         categoryImage: '/categories/light.png',
-        parentCategoryID: null,
+        parentCategoryID: 3,
         parentCategoryName: null,
     },
     {
         categoryID: 4,
         categoryName: 'Ventilation and Heating',
         categoryImage: '/categories/vent.png',
-        parentCategoryID: null,
+        parentCategoryID: 4,
         parentCategoryName: null,
     },
 ];
@@ -75,7 +75,7 @@ const CategoriesSection = () => {
     }, []);
 
     return (
-        <section className="py-6 px-20 bg-white shadow-md rounded-lg">
+        <section className="py-6 px-20 bg-white">
             <div className="flex flex-wrap gap-5 justify-between mt-5 max-md:mt-10">
                 <h2 className="text-3xl font-bold leading-tight text-neutral-950">Recommended Categories</h2>
                 <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">

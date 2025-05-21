@@ -91,7 +91,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     <p className="text-sm text-zinc-500">
                         {brand} | Part No. {partNo}
                     </p>
-                    <h3 className="text-xl font-bold text-neutral-950 w-[264px]">{name}</h3>
+                    <h3 className="text-xl font-bold text-neutral-950 w-full">{name}</h3>
                     <p className="text-sm text-blue-700">Company: {company}</p>
 
                     {parameters.map((param, index) => (
@@ -117,7 +117,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                             type="number"
                             defaultValue={1}
                             min={1}
-                            className="flex-1 px-2 py-1 text-center bg-white rounded-lg border border-[color:var(--Light-Colors-Platinum,#EAECEE)] text-neutral-950"
+                            className="flex-1 px-2 py-1 text-center bg-white rounded-lg border border-[color:var(--Light-Colors-Platinum,#EAECEE)] text-neutral-950 w-[100px]"
                         />
                         <select className="px-2 py-1 bg-white rounded-lg border border-[color:var(--Light-Colors-Platinum,#EAECEE)]">
                             <option value="item">Item</option>

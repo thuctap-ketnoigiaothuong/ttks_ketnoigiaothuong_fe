@@ -16,11 +16,11 @@ const DeliverySection = () => {
                         <span className="gap-10 self-stretch my-auto">Show more</span>
                     </button>
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 group duration-300">
                     <img
                         src="delivery.png"
                         alt="DPD Delivery Service"
-                        className="object-contain self-stretch my-auto aspect-[1.89] min-w-60 w-[552px] max-md:max-w-full"
+                        className="object-contain self-stretch my-auto aspect-[1.89] min-w-60 w-[552px] max-md:max-w-full transform transition-transform duration-300 group-hover:scale-105"
                     />
                 </div>
             </div>
