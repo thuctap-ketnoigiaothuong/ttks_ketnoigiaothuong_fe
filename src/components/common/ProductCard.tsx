@@ -63,8 +63,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     };
 
     return (
-        <article className="w-full text-sm leading-6">
-            <div className="pb-3 bg-white rounded-lg border border-solid border-[color:var(--Light-Colors-Platinum-2,#F6F8FB)]">
+        <article className="w-full text-sm leading-6 group hover:shadow-lg transition-shadow duration-300">
+            <div className="pb-3 bg-white rounded-lg border border-solid border-[color:var(--Light-Colors-Platinum-2,#F6F8FB)] group overflow-hidden">
                 <div className="relative w-full aspect-[1.224]">
                     {discount && (
                         <div className="absolute top-2 left-2 z-10 px-2 py-1 font-semibold text-white text-sm bg-orange-500 rounded">
@@ -72,7 +72,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                         </div>
                     )}
 
-                    <img src={image} alt={name} className="object-cover absolute inset-0 w-full h-full rounded-t-lg" />
+                    <img src={image} alt={name} className="object-cover absolute inset-0 w-full h-full rounded-t-lg transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-90" />
 
                     {inStock ? (
                         <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1 px-3 py-1 text-xs text-green-700 bg-white/70 backdrop-blur-sm rounded">
@@ -81,13 +81,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                         </div>
                     ) : (
                         <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1 px-3 py-1 text-xs text-red-600 bg-white/70 backdrop-blur-sm rounded">
-                            <img src="/products/outstock.png" alt="In stock" className="object-contain w-4 h-4" />
+                            <img src="/products/outstock.png" alt="Out of stock" className="object-contain w-4 h-4" />
                             <p>Hết hàng</p>
                         </div>
                     )}
                 </div>
 
-                <div className="flex flex-col items-start px-2 w-full">
+                <div className="flex flex-col items-start px-2 w-full mt-3">
                     <p className="text-sm text-zinc-500">
                         {brand} | Part No. {partNo}
                     </p>
@@ -104,9 +104,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                         <div className="grow text-xl font-bold text-neutral-950">
                             <span className="text-sm text-blue-600">your price</span>
                             <span className="text-2xl text-blue-600"> {price} </span>
-                            <span className="text-sm text-blue-600">net </span>
+                            <span className="text-sm text-blue-600"> </span>
                             {originalPrice && (
-                                <span className="text-base text-orange-500 line-through">{originalPrice} net</span>
+                                <span className="text-base text-orange-500 line-through">{originalPrice} </span>
                             )}
                         </div>
                     </div>

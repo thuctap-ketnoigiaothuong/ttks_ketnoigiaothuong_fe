@@ -52,7 +52,15 @@ export const ArticlesSection = () => {
         const fetchArticles = async () => {
             try {
                 const res = await api.get(API_ENDPOINTS.articles);
+                console.log("Fetched articles:", res.data);
+                if (Array.isArray(res.data)) {
                 setArticles(res.data.slice(0, 4));
+                } else if (Array.isArray(res.data.data)) {
+                setArticles(res.data.data.slice(0, 4));
+                } else {
+                console.warn("API trả về dữ liệu không hợp lệ. Dùng fallback.");
+                setArticles(fallbackArticles);
+                }
             } catch (error) {
                 console.error('Error fetching articles:', error);
                 setArticles(fallbackArticles);
@@ -65,10 +73,10 @@ export const ArticlesSection = () => {
     }, []);
 
     return (
-        <section className="w-full max-w-[1264px]">
+        <section className="py-6 px-20 bg-white">
             <div className="flex flex-wrap gap-5 justify-between mt-5 w-full max-md:mt-10 max-md:max-w-full">
                 <h2 className="text-3xl font-bold leading-tight text-neutral-950">Hints for you</h2>
-                <button className="flex gap-1 items-center my-auto text-base font-medium leading-none text-right text-blue-600">
+                <button className="flex gap-1 items-center my-auto text-base font-medium leading-none text-right text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
                     <span className="self-stretch my-auto">Show all hints</span>
                     <img
                         src="arrowright.png"
@@ -78,9 +86,9 @@ export const ArticlesSection = () => {
                 </button>
             </div>
 
-            <div className="flex flex-wrap gap-5 items-start mt-8 text-base text-neutral-950 max-md:max-w-full">
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {loading ? (
-                    <p className="text-gray-500 text-center w-full">Loading articles...</p>
+                    <p className="text-gray-500 col-span-full text-center">Loading articles...</p>
                 ) : (
                     articles.map((article) => (
                         <ArticleCard
