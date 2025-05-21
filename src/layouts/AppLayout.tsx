@@ -1,9 +1,17 @@
-import { Outlet } from "react-router";
+import { Outlet } from 'react-router';
+import { TopNavigationBar } from '../components/common/TopNavigationBar';
+import { SearchBar } from '../components/common/SearchBar';
+import { CategoryNav } from '../components/common/CategoryNav';
+import Footer from '../components/common/Footer';
 
 export default function AppLayout() {
-  return (
-    <div>
-      <Outlet />
-    </div>
-  );
+    return (
+        <div>
+            <TopNavigationBar />
+            <SearchBar />
+            <CategoryNav />
+            <Outlet />
+            <Footer />
+        </div>
+    );
 }

@@ -35,6 +35,8 @@ export default [
             'jsx-a11y/alt-text': 'warn',
             'prettier/prettier': 'warn',
             'react/react-in-jsx-scope': 'off', // React 17+
+            'react/prop-types': 'off',
+            'jsx-a11y/anchor-is-valid': 'off',
         },
     },
     prettier,

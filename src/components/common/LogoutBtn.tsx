@@ -14,7 +14,6 @@ export default function LogoutBtn() {
 
     const handleLogout = async () => {
         try {
-            
             const res = await api.post(API_ENDPOINTS.logout);
             if (res.status === 200) {
                 showToast({
@@ -41,7 +40,7 @@ export default function LogoutBtn() {
             <span className="me-2">
                 <LogOut />
             </span>
-            <span>Đăng xuất</span>
+            <span>Logout</span>
         </button>
     );
 }

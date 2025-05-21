@@ -1,4 +1,5 @@
 import { NavLink, useLocation } from 'react-router';
+import LogoutBtn from '../../common/LogoutBtn';
 
 export default function LeftSidebar() {
     const location = useLocation();
@@ -17,7 +18,6 @@ export default function LeftSidebar() {
         <div className="w-[250px] h-full bg-white rounded-lg p-4 space-y-3 text-sm shadow-md shadow-gray-300">
             {sidebarItems.map(({ title, path }, idx) => {
                 const isActive = location.pathname === path;
-
                 return (
                     <NavLink
                         key={idx}
@@ -30,6 +30,8 @@ export default function LeftSidebar() {
                     </NavLink>
                 );
             })}
+            <hr />
+            <LogoutBtn />
         </div>
     );
 }
