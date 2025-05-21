@@ -62,7 +62,16 @@ export const EventsSection: React.FC = () => {
         const fetchEvents = async () => {
             try {
                 const res = await api.get(API_ENDPOINTS.events);
+                console.log("Fetched events:", res.data);
+        
+                if (Array.isArray(res.data)) {
                 setEvents(res.data.slice(0, 4));
+                } else if (Array.isArray(res.data.data)) {
+                setEvents(res.data.data.slice(0, 4));
+                } else {
+                console.warn("API events trả về sai định dạng. Sử dụng fallback.");
+                setEvents(fallbackEvents);
+                }
             } catch (error) {
                 console.error('Error fetching events:', error);
                 setEvents(fallbackEvents); // fallback khi lỗi
@@ -79,16 +88,16 @@ export const EventsSection: React.FC = () => {
     }
 
     return (
-        <section className="w-full max-w-[1264px]">
+        <section className="py-6 px-20 bg-white">
             <div className="flex flex-wrap gap-5 justify-between mt-5 max-md:mt-10">
                 <h2 className="text-3xl font-bold leading-tight text-neutral-950">Events for you</h2>
-                <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600">
+                <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
                     <span>Show all events</span>
                     <img src="arrowright.png" alt="Arrow right" className="w-4" />
                 </button>
             </div>
 
-            <div className="flex flex-wrap gap-5 items-start mt-8">
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {events.map((event) => (
                     <EventCard
                         key={event.id}

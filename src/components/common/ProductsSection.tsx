@@ -81,7 +81,15 @@ export const ProductsSection: React.FC = () => {
         const fetchProducts = async () => {
             try {
                 const response = await api.get(API_ENDPOINTS.products);
-                setProducts(response.data.slice(0, 4));
+                console.log("Fetched products:", response.data);
+                if (Array.isArray(response.data)) {
+                    setProducts(response.data.slice(0, 4));
+                  } else if (Array.isArray(response.data.data)) {
+                    setProducts(response.data.data.slice(0, 4));
+                  } else {
+                    console.warn("API không trả về mảng, fallback sang dữ liệu cứng");
+                    setProducts(fallbackProducts);
+                  }
             } catch (error) {
                 console.error('Error fetching products:', error);
                 setProducts(fallbackProducts); // fallback nếu API lỗi
@@ -98,16 +106,16 @@ export const ProductsSection: React.FC = () => {
     }
 
     return (
-        <section className="flex flex-wrap gap-5 justify-between w-full max-w-[1264px] max-md:mt-10 max-md:max-w-full">
-            <div className="flex justify-between w-full">
+        <section className="py-6 px-20 bg-white">
+            <div className="flex justify-between w-full mb-8">
                 <h2 className="text-3xl font-bold leading-tight text-neutral-950">Recommended products</h2>
-                <button className="flex gap-1 items-center text-base font-medium text-blue-600">
+                <button className="flex gap-1 items-center text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
                     <span>Show all recommended products</span>
                     <img src="arrowright.png" alt="Arrow right" className="w-4" />
                 </button>
             </div>
 
-            <div className="w-full px-4">
+            <div className="w-full">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {products.map((product) => (
                         <ProductCard

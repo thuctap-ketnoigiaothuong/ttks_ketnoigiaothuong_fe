@@ -7,11 +7,11 @@ export function CategoryNav() {
     const isActive = (path: string) => location.pathname === path;
 
     return (
-        <nav className="flex flex-wrap gap-5 justify-between p-4 w-full bg-slate-50 max-md:px-5 max-md:max-w-full">
+        <nav className="flex flex-wrap gap-5 justify-between px-20 py-4 w-full bg-blue-50 shadow-md border-b border-gray-200 max-md:px-5 max-md:max-w-full">
             <div className="flex flex-wrap gap-10 items-center my-auto font-semibold leading-6 text-neutral-950 max-md:max-w-full">
                 <button
                     onClick={() => navigate('/')}
-                    className={`text-neutral-950 font-medium px-1 py-2 border-b-2 ${
+                    className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
                         isActive('/') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
                     }`}
                 >
@@ -19,7 +19,7 @@ export function CategoryNav() {
                 </button>
                 <button
                     //onClick={() => navigate("/about")}
-                    className={`text-neutral-950 font-medium px-1 py-2 border-b-2 ${
+                    className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
                         isActive('/about') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
                     }`}
                 >
@@ -27,7 +27,7 @@ export function CategoryNav() {
                 </button>
                 <button
                     //onClick={() => navigate("/products")}
-                    className={`text-neutral-950 font-medium px-1 py-2 border-b-2 ${
+                    className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
                         isActive('/products') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
                     }`}
                 >
@@ -35,7 +35,7 @@ export function CategoryNav() {
                 </button>
                 <button
                     //onClick={() => navigate("/companies")}
-                    className={`text-neutral-950 font-medium px-1 py-2 border-b-2 ${
+                    className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
                         isActive('/companies') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
                     }`}
                 >
@@ -46,7 +46,7 @@ export function CategoryNav() {
             <div className="flex gap-9">
                 <div
                     //onClick={() => navigate("/compare")}
-                    className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap"
+                    className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap transition-transform duration-300 hover:scale-110"
                 >
                     <img
                         src="/header/compare.png"
@@ -58,7 +58,7 @@ export function CategoryNav() {
 
                 <div
                     //onClick={() => navigate("/favorites")}
-                    className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap"
+                    className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap transition-transform duration-300 hover:scale-110"
                 >
                     <img
                         src="/header/star.png"
@@ -72,7 +72,7 @@ export function CategoryNav() {
 
                 <div
                     //onClick={() => navigate("/cart")}
-                    className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap"
+                    className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap transition-transform duration-300 hover:scale-110"
                 >
                     <img
                         src="/header/cart.png"
