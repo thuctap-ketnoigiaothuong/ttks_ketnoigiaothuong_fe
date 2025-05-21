@@ -17,8 +17,11 @@ export function SearchBar() {
   // };
 
   return (
-    <section className="flex flex-wrap gap-10 justify-between items-center px-24 py-4 w-full bg-white min-h-20 max-md:px-5 max-md:max-w-full">
-      <div className="font-bold text-2xl text-blue-600">Kết Nối Giao Thương</div>
+    <section className="relative flex flex-wrap gap-5 justify-between items-center px-20 w-full bg-gray-100 min-h-20 max-md:px-5 max-md:max-w-full">
+      <div className=" font-bold text-2xl text-blue-800 flex items-center">
+        <img src="b2b.png" alt="Logo" className="object-contain w-30"/>
+        <p>Kết Nối Giao Thương</p>
+      </div>
 
       <div className="flex flex-wrap gap-2 items-center self-stretch px-4 py-3 my-auto text-sm leading-6 bg-white rounded-lg border border-solid border-[color:var(--Light-Colors-Platinum,#EAECEE)] min-w-60 text-zinc-500 w-[543px] max-md:max-w-full">
         <img src="/header/search.png" className="w-6 aspect-square" alt="Search" />
@@ -44,9 +47,9 @@ export function SearchBar() {
 
       <button
         //onClick={handleQuickOrderClick}
-        className="flex gap-2.5 items-center self-stretch px-8 py-4 my-auto text-base font-medium leading-none text-white bg-blue-600 min-h-12 rounded-[30px] max-md:px-5"
+        className="flex gap-2.5 items-center self-stretch px-8 py-4 my-auto text-base font-medium leading-none text-blue-600 bg-white border-2 border-solid border-[color:var(--Brand-Colors-Main-Color---Vibrant-Blue,#1071FF)] min-h-12 rounded-[30px] max-md:px-5 hover:bg-blue-600 hover:text-white transition-all"
       >
-        <span className="text-white">Quick Order Form</span>
+        <span>Quick Order Form</span>
       </button>
     </section>
   );

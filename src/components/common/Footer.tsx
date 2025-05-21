@@ -1,6 +1,10 @@
+import { useState } from "react";
+
 const Footer = () => {
+    const [accepted, setAccepted] = useState(false);
+
     return (
-      <footer className="bg-gray-50 mt-12 border-t border-gray-200">
+      <footer className="bg-gray-50 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-[2fr_4fr] gap-8">
             <div className="w-[285px]">
@@ -15,16 +19,24 @@ const Footer = () => {
                 className="flex-1 shrink gap-2 self-stretch px-4 py-3 mt-6 max-w-full text-sm leading-6 bg-white rounded-lg border border-solid basis-0 border-[color:var(--Light-Colors-Platinum,#EAECEE)] text-zinc-500 w-[301px]"
               />
               <div className="mt-6 w-full max-w-[301px]">
-                <button className="flex gap-2.5 justify-center items-center px-8 py-4 w-full text-base font-medium leading-none text-white bg-blue-600 min-h-12 rounded-[30px] max-md:px-5">
+                <button
+                  className={`flex gap-2.5 justify-center items-center px-8 py-4 w-full text-base font-medium leading-none text-white min-h-12 rounded-[30px] max-md:px-5
+                    ${accepted ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-600 opacity-50 cursor-not-allowed'}`}
+                >
                   <span className="gap-10 self-stretch my-auto">Sign up for newsletter</span>
                 </button>
+
                 <div className="flex gap-2 items-center mt-4 w-full">
-                  <div className="self-stretch my-auto w-4">
-                    <div className="flex shrink-0 w-4 h-4 bg-white rounded border border-solid border-[color:var(--Brand-Colors-Main-Color---Vibrant-Blue,#1071FF)]" />
-                  </div>
-                  <p className="self-stretch my-auto text-sm leading-6 text-neutral-950 w-[277px]">
+                  <input
+                    type="checkbox"
+                    id="accept"
+                    checked={accepted}
+                    onChange={(e) => setAccepted(e.target.checked)}
+                    className="w-4 h-4 accent-blue-600"
+                  />
+                  <label htmlFor="accept" className="text-sm leading-6 text-neutral-950 w-[277px]">
                     I accept <span className="text-blue-600">the personal data management.</span>
-                  </p>
+                  </label>
                 </div>
               </div>
             </div>

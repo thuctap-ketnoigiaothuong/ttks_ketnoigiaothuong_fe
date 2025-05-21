@@ -12,7 +12,7 @@ const DeliverySection = () => {
                 This will help you plan your work while waiting for the parcel.
               </p>
             </div>
-            <button className="flex gap-2.5 justify-center items-center self-start px-8 py-4 mt-10 text-base font-medium leading-none text-white bg-blue-600 min-h-12 rounded-[30px] max-md:px-5">
+            <button className="flex gap-2.5 justify-center items-center self-start px-8 py-4 mt-10 text-base font-medium leading-none text-white bg-blue-600 min-h-12 rounded-[30px] max-md:px-5 hover:bg-blue-700">
               <span className="gap-10 self-stretch my-auto">Show more</span>
             </button>
           </div>

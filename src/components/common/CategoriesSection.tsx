@@ -26,7 +26,20 @@ const CategoriesSection = () => {
     const fetchCategories = async () => {
       try {
         const res = await api.get(API_ENDPOINTS.categories);
-        setCategories(res.data.slice(0, 4));
+        console.log("Fetched categories:", res.data);
+
+        // Kiểm tra xem dữ liệu có phải là mảng không
+        if (Array.isArray(res.data)) {
+          setCategories(res.data.slice(0, 4));
+        } else {
+          // Nếu API trả về { data: [...] }
+          if (Array.isArray(res.data.data)) {
+            setCategories(res.data.data.slice(0, 4));
+          } else {
+            console.warn("API trả về dữ liệu không hợp lệ. Dùng fallback.");
+            setCategories(fallbackCategories);
+          }
+        }
       } catch (error) {
         console.error("Error fetching categories:", error);
         setCategories(fallbackCategories);
@@ -39,10 +52,10 @@ const CategoriesSection = () => {
   }, []);
 
   return (
-    <section className="py-6">
+    <section className="py-6 px-20 bg-white shadow-md rounded-lg">
       <div className="flex flex-wrap gap-5 justify-between mt-5 max-md:mt-10">
         <h2 className="text-3xl font-bold leading-tight text-neutral-950">Recommended Categories</h2>
-        <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600">
+        <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
           <span>Show all categories</span>
           <img src="arrowright.png" alt="Arrow right" className="w-4" />
         </button>
