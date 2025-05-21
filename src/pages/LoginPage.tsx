@@ -6,7 +6,7 @@ import { API_ENDPOINTS } from '../lib/apiConfig';
 import { useToast } from '../context/ToastContext';
 import InputFieldNoLabel from '../components/common/InputFieldNoLabel';
 
-export default function LoginPage()  {
+export default function LoginPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +17,7 @@ export default function LoginPage()  {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
-        
+
         try {
             const res = await api.post(API_ENDPOINTS.login, {
                 email: email,
@@ -25,7 +25,7 @@ export default function LoginPage()  {
             });
             const data = res.data;
             console.log(data.response.data);
-            const access_token = data.response.data
+            const access_token = data.response.data;
             Cookies.set('access_token', access_token, { expires: 7 });
 
             showToast({
@@ -42,26 +42,26 @@ export default function LoginPage()  {
     };
 
     return (
-        <div className="flex h-screen items-center bg-white">
+        <div className="flex py-3 items-center bg-white">
             <div className="m-auto w-[500px] rounded-lg border-2 border-gray-300 bg-white p-8 shadow-lg">
                 <img src="/logo.png" alt="Logo" width={125} height={125} className="mx-auto mb-4 shadow-lg" />
                 <h1 className="text-center text-xl font-bold">KẾT NỐI GIAO THƯƠNG - B2B Trading</h1>
                 <form onSubmit={handleSubmit} className="my-4 flex flex-col gap-4">
-                    <InputFieldNoLabel 
+                    <InputFieldNoLabel
                         type="email"
-                        name="Email" 
+                        name="Email"
                         value={email}
                         placeholder="Email"
-                        onChange={(e) => setEmail(e.target.value)} 
-                        required 
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
                     <InputFieldNoLabel
                         type="password"
-                        name="password" 
+                        name="password"
                         value={password}
                         placeholder="Password"
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                     {error && <p className="text-center text-sm text-red-500">{error}</p>}
                     <button

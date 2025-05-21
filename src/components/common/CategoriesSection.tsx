@@ -6,16 +6,43 @@ import api from '../../lib/axios';
 import { API_ENDPOINTS } from '../../lib/apiConfig';
 
 interface Category {
-    name: string;
-    image: string;
+    categoryID: number;
+    categoryName: string;
+    parentCategoryID: number | null;
+    parentCategoryName: number | null;
+    categoryImage: string;
 }
 
 // Dữ liệu fallback nếu không gọi được API
 const fallbackCategories: Category[] = [
-    { name: 'Photovoltaics', image: '/categories/photo.png' },
-    { name: 'Electronics', image: '/categories/electronics.png' },
-    { name: 'Light Sources', image: '/categories/light.png' },
-    { name: 'Ventilation and Heating', image: '/categories/vent.png' },
+    {
+        categoryID: 1,
+        categoryName: 'Photovoltaics',
+        categoryImage: '/categories/photo.png',
+        parentCategoryID: null,
+        parentCategoryName: null,
+    },
+    {
+        categoryID: 2,
+        categoryName: 'Electronics',
+        categoryImage: '/categories/electronics.png',
+        parentCategoryID: null,
+        parentCategoryName: null,
+    },
+    {
+        categoryID: 3,
+        categoryName: 'Light Sources',
+        categoryImage: '/categories/light.png',
+        parentCategoryID: null,
+        parentCategoryName: null,
+    },
+    {
+        categoryID: 4,
+        categoryName: 'Ventilation and Heating',
+        categoryImage: '/categories/vent.png',
+        parentCategoryID: null,
+        parentCategoryName: null,
+    },
 ];
 
 const CategoriesSection = () => {
@@ -26,7 +53,7 @@ const CategoriesSection = () => {
         const fetchCategories = async () => {
             try {
                 const res = await api.get(API_ENDPOINTS.categories);
-                setCategories(res.data.slice(0, 4));
+                setCategories(res.data.data);
             } catch (error) {
                 console.error('Error fetching categories:', error);
                 setCategories(fallbackCategories);
@@ -34,7 +61,6 @@ const CategoriesSection = () => {
                 setLoading(false);
             }
         };
-
         fetchCategories();
     }, []);
 
@@ -52,9 +78,11 @@ const CategoriesSection = () => {
                 {loading ? (
                     <p className="text-gray-500 col-span-full text-center">Loading categories...</p>
                 ) : (
-                    categories.map((category, index) => (
-                        <CategoryCard key={index} name={category.name} image={category.image} />
-                    ))
+                    categories
+                        .filter((category) => category.parentCategoryID !== null)
+                        .map((category, index) => (
+                            <CategoryCard key={index} name={category.categoryName} image={category.categoryImage} />
+                        ))
                 )}
             </div>
         </section>
