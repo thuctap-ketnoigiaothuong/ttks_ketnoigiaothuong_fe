@@ -16,17 +16,17 @@ export default function CompleteProfilePage() {
         phoneNumber: '',
         registrationDate: '',
     });
-    
-    const [userId, setUserId] = useState(0)
-    const [email, setEmail] = useState('')
-    const [error, setError] = useState('')
+
+    const [userId, setUserId] = useState(0);
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchEmail = async () => {
             try {
                 const response = await api.get(API_ENDPOINTS.me);
-                const data = response.data.data
-                console.log(data.userID); 
+                const data = response.data.data;
+                console.log(data.userID);
                 setUserId(data.userID);
                 setEmail(data.email);
             } catch (error) {
@@ -35,30 +35,29 @@ export default function CompleteProfilePage() {
         };
 
         fetchEmail();
-    }, [])
+    }, []);
 
     const navigate = useNavigate();
     const { showToast } = useToast();
 
-    const handleFileChange = () => {
-
-    }
+    const handleFileChange = () => {};
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setFormData({ 
-            ...formData, [e.target.name]: e.target.value
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
         });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            formData.email = email
+            formData.email = email;
             const res = await api.post(API_ENDPOINTS.completeProfile, formData);
             const data = res.data;
-            
+
             if (data.response.isSuccess === false) {
-                setError(data.response.message)
+                setError(data.response.message);
                 throw new Error(data.response.message);
             }
 
@@ -74,9 +73,9 @@ export default function CompleteProfilePage() {
                 phoneNumber: formData.phoneNumber,
             });
             const info = resultGetInfo.data.data;
-            const companyID = info.companyID
+            const companyID = info.companyID;
 
-            await api.post(API_ENDPOINTS.updateUser(userId), {companyID})
+            await api.post(API_ENDPOINTS.updateUser(userId), { companyID });
             navigate('/');
         } catch (err) {
             console.error(err);
@@ -90,10 +89,7 @@ export default function CompleteProfilePage() {
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-            <form
-                onSubmit={handleSubmit}
-                className="w-full max-w-4xl rounded-lg bg-white p-8 shadow-md"
-            >
+            <form onSubmit={handleSubmit} className="w-full max-w-4xl rounded-lg bg-white p-8 shadow-md">
                 <h2 className="mb-6 text-center text-2xl font-bold">Complete Company Profile</h2>
 
                 <div className="flex flex-col md:flex-row md:gap-6">
@@ -128,14 +124,16 @@ export default function CompleteProfilePage() {
                             <option value="manufacturing">Manufacturing</option>
                             <option value="education">Education</option>
                             <option value="finance">Finance</option>
+                            <option value="agriculture">Agriculture</option>
+                            <option value="logistics">Logistics</option>
                         </select>
 
                         <InputFieldNoLabel
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        placeholder="Address"
-                        required
+                            name="address"
+                            value={formData.address}
+                            onChange={handleChange}
+                            placeholder="Address"
+                            required
                         />
                     </div>
 
@@ -185,6 +183,5 @@ export default function CompleteProfilePage() {
                 </button>
             </form>
         </div>
-
     );
 }

@@ -1,108 +1,108 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import api from "../../lib/axios";
-import { API_ENDPOINTS } from "../../lib/apiConfig";
+import { useEffect, useState } from 'react';
+import api from '../../lib/axios';
+import { API_ENDPOINTS } from '../../lib/apiConfig';
 
 interface Brand {
-  name: string;
-  logo: string;
+    name: string;
+    logo: string;
 }
 
 // Fallback data
 const fallbackBrands: Brand[] = [
-  { name: "Sharp", logo: "/brands/sharp.png" },
-  { name: "Panasonic", logo: "/brands/panasonic.png" },
-  { name: "Huawei", logo: "/brands/huawei.png" },
-  { name: "Legrand", logo: "/brands/legrand.png" },
-  { name: "Sony", logo: "/brands/sony.png" },
-  { name: "Samsung", logo: "/brands/samsung.png" },
+    { name: 'Sharp', logo: '/brands/sharp.png' },
+    { name: 'Panasonic', logo: '/brands/panasonic.png' },
+    { name: 'Huawei', logo: '/brands/huawei.png' },
+    { name: 'Legrand', logo: '/brands/legrand.png' },
+    { name: 'Sony', logo: '/brands/sony.png' },
+    { name: 'Samsung', logo: '/brands/samsung.png' },
 ];
 
 const BrandSlider = () => {
-  const [brands, setBrands] = useState<Brand[]>([]);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const itemsPerSlide = 3;
+    const [brands, setBrands] = useState<Brand[]>([]);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const itemsPerSlide = 3;
 
-  const totalSlides = Math.ceil(brands.length / itemsPerSlide);
+    const totalSlides = Math.ceil(brands.length / itemsPerSlide);
 
-  useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const res = await api.get(API_ENDPOINTS.brands);
-        setBrands(res.data);
-      } catch (error) {
-        console.error("Error fetching brands:", error);
-        setBrands(fallbackBrands); // fallback
-      }
+    useEffect(() => {
+        const fetchBrands = async () => {
+            try {
+                const res = await api.get(API_ENDPOINTS.brands);
+                setBrands(res.data);
+            } catch (error) {
+                console.error('Error fetching brands:', error);
+                setBrands(fallbackBrands); // fallback
+            }
+        };
+
+        fetchBrands();
+    }, []);
+
+    const handlePrev = () => {
+        setCurrentSlide((prev) => (prev > 0 ? prev - 1 : totalSlides - 1));
     };
 
-    fetchBrands();
-  }, []);
+    const handleNext = () => {
+        setCurrentSlide((prev) => (prev < totalSlides - 1 ? prev + 1 : 0));
+    };
 
-  const handlePrev = () => {
-    setCurrentSlide((prev) => (prev > 0 ? prev - 1 : totalSlides - 1));
-  };
+    const getSlideItems = () => {
+        const start = currentSlide * itemsPerSlide;
+        return brands.slice(start, start + itemsPerSlide);
+    };
 
-  const handleNext = () => {
-    setCurrentSlide((prev) => (prev < totalSlides - 1 ? prev + 1 : 0));
-  };
+    if (!brands.length) return null;
 
-  const getSlideItems = () => {
-    const start = currentSlide * itemsPerSlide;
-    return brands.slice(start, start + itemsPerSlide);
-  };
-
-  if (!brands.length) return null;
-
-  return (
-    <section className="py-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl font-bold leading-tight text-neutral-950">Our brands</h2>
-        <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600">
-          <span>Show all brands</span>
-          <img src="arrowright.png" alt="Arrow right" className="w-4" />
-        </button>
-      </div>
-
-      <div className="relative w-full max-w-5xl mx-auto">
-        <button
-          onClick={handlePrev}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full shadow-md p-2 z-10"
-        >
-          <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-
-        <div className="flex justify-between items-center space-x-8 py-4 px-8">
-          {getSlideItems().map((brand, index) => (
-            <div key={index} className="flex-1 flex justify-center items-center">
-              <img src={brand.logo} alt={brand.name} className="h-14" />
+    return (
+        <section className="py-6">
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-3xl font-bold leading-tight text-neutral-950">Our brands</h2>
+                <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600">
+                    <span>Show all brands</span>
+                    <img src="arrowright.png" alt="Arrow right" className="w-4" />
+                </button>
             </div>
-          ))}
-        </div>
 
-        <button
-          onClick={handleNext}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full shadow-md p-2 z-10"
-        >
-          <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+            <div className="relative w-full max-w-5xl mx-auto">
+                <button
+                    onClick={handlePrev}
+                    className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full shadow-md p-2 z-10"
+                >
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
 
-        <div className="flex justify-center mt-4 space-x-2">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <div
-              key={index}
-              className={`h-2 w-2 rounded-full ${index === currentSlide ? "bg-blue-600" : "bg-gray-300"}`}
-            ></div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+                <div className="flex justify-between items-center space-x-8 py-4 px-8">
+                    {getSlideItems().map((brand, index) => (
+                        <div key={index} className="flex-1 flex justify-center items-center">
+                            <img src={brand.logo} alt={brand.name} className="h-14" />
+                        </div>
+                    ))}
+                </div>
+
+                <button
+                    onClick={handleNext}
+                    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full shadow-md p-2 z-10"
+                >
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                <div className="flex justify-center mt-4 space-x-2">
+                    {Array.from({ length: totalSlides }).map((_, index) => (
+                        <div
+                            key={index}
+                            className={`h-2 w-2 rounded-full ${index === currentSlide ? 'bg-blue-600' : 'bg-gray-300'}`}
+                        ></div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
 };
 
 export default BrandSlider;

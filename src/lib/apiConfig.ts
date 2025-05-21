@@ -10,12 +10,14 @@ export const API_ENDPOINTS = {
     updateUser: (user_id: number) => `${API_BASE_URL}/users/update/${user_id}`,
 
     completeProfile: `${API_BASE_URL}/company/create`,
-    getInfoByEmailPhone:`${API_BASE_URL}/company/get-by-email-phone`,
+    getCompanyInfoById: (user_id: number) => `${API_BASE_URL}/company/get-by-id/${user_id}`,
+    updateCompanyInfo: (company_id: number) => `${API_BASE_URL}/company/update/${company_id}`,
+    deleteCompanyInfo: (company_id: number) => `${API_BASE_URL}/company/delete/${company_id}`,
+    getInfoByEmailPhone: `${API_BASE_URL}/company/get-by-email-phone`,
 
     products: `${API_BASE_URL}/products`,
     categories: `${API_BASE_URL}/categories`,
     events: `${API_BASE_URL}/events`,
     articles: `${API_BASE_URL}/articles`,
     brands: `${API_BASE_URL}/brands`,
-
-}
+};
