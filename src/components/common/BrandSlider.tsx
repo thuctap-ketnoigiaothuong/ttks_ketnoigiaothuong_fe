@@ -64,7 +64,7 @@ const BrandSlider = () => {
     if (!brands.length) return null;
 
     return (
-        <section className="py-6 px-20 bg-white shadow-md rounded-lg">
+        <section className="py-6 px-20 bg-white">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-3xl font-bold leading-tight text-neutral-950">Our brands</h2>
                 <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">

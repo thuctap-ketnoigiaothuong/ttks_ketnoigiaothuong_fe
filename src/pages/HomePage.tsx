@@ -8,7 +8,7 @@ import { EventsSection } from '../components/common/EventsSection';
 
 const HomePage = () => {
     return (
-        <div className="w-[1240px] mx-auto">
+        <div className="w-full mx-auto">
             <BrandSlider />
             <ProductsSection />
             <AdvertisingBox title="-20%" description="on power tools" buttonText="Check offer" />

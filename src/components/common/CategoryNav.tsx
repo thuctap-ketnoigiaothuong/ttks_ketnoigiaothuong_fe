@@ -7,7 +7,7 @@ export function CategoryNav() {
     const isActive = (path: string) => location.pathname === path;
 
     return (
-        <nav className="flex flex-wrap gap-5 justify-between px-20 py-4 w-full bg-blue-50 shadow-md border-b border-gray-200 max-md:px-5 max-md:max-w-full">
+        <nav className="flex flex-wrap gap-5 justify-between px-20 py-4 w-full bg-blue-50 border-b border-gray-200 max-md:px-5 max-md:max-w-full">
             <div className="flex flex-wrap gap-10 items-center my-auto font-semibold leading-6 text-neutral-950 max-md:max-w-full">
                 <button
                     onClick={() => navigate('/')}
