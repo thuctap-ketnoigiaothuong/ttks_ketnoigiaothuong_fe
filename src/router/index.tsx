@@ -7,6 +7,7 @@ import AdminLayout from '../layouts/AdminLayout';
 
 import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
+import ProductsPage from '../pages/ProductsPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
         children: [
             { index: true, Component: HomePage },
             { path: 'about', Component: AboutPage },
+            { path: 'products', Component: ProductsPage },
             {
                 path: 'profiles',
                 Component: ProfilePage,
