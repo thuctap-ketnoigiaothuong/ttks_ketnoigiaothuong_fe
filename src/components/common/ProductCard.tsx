@@ -61,13 +61,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setTimeout(() => setShowAddedMessage(false), 3000);
   };
 
+  const handleCardClick = () => {
+    navigate(`/products/${product.id}`);
+  };
+  
   const handleContactCompany = () => {
     navigate(`/companies?search=${encodeURIComponent(product.company)}`);
   };
 
   return (
     <article className="w-full text-base leading-7 group hover:shadow-md transition-shadow duration-300">
-      <div className="pb-4 bg-white rounded-xl border border-solid border-[#F6F8FB] overflow-hidden">
+      <div className="pb-4 bg-white rounded-xl border border-solid border-[#F6F8FB] overflow-hidden"
+        onClick={handleCardClick}>
         {/* Image section */}
         <div className="relative w-full h-40 bg-gray-50">
           {product.discount && (

@@ -8,6 +8,7 @@ import AdminLayout from '../layouts/AdminLayout';
 import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
 import ProductsPage from '../pages/ProductsPage';
+import ProductDetailPage from '../pages/ProductDetailPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -32,13 +33,18 @@ const router = createBrowserRouter([
         children: [
             { index: true, Component: HomePage },
             { path: 'about', Component: AboutPage },
-            { path: 'products', Component: ProductsPage },
+            { path: 'products',
+                children: [
+                  { index: true, Component: ProductsPage },
+                  { path: ':productId', Component: ProductDetailPage },
+                ],
+            },
             {
                 path: 'profiles',
                 Component: ProfilePage,
                 children: [
-                    { path: 'account', element: <AccountInfo /> },
-                    { path: 'company', element: <CompanyInfo /> },
+                    { path: 'account', Component: AccountInfo },
+                    { path: 'company', Component: CompanyInfo },
                 ],
             },
             {
