@@ -29,7 +29,7 @@ const BrandSlider = () => {
     useEffect(() => {
         const fetchBrands = async () => {
             try {
-                const res = await api.get(API_ENDPOINTS.brands);
+                const res = await api.get(API_ENDPOINTS.getAllBrands);
                 console.log("Fetched brands raw response:", res.data);
                 if (Array.isArray(res.data)) {
                 setBrands(res.data);

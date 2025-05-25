@@ -52,7 +52,7 @@ const CategoriesSection = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await api.get(API_ENDPOINTS.categories);
+                const res = await api.get(API_ENDPOINTS.getAllCategories);
                 console.log("Fetched categories:", res.data);
                 if (Array.isArray(res.data)) {
                 setCategories(res.data.slice(0, 4));

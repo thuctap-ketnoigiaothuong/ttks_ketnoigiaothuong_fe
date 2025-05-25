@@ -61,7 +61,7 @@ export const EventsSection: React.FC = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const res = await api.get(API_ENDPOINTS.events);
+                const res = await api.get(API_ENDPOINTS.getAllEvents);
                 console.log("Fetched events:", res.data);
         
                 if (Array.isArray(res.data)) {

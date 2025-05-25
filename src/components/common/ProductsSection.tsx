@@ -91,7 +91,7 @@ export const ProductsSection: React.FC = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await api.get(API_ENDPOINTS.products);
+                const response = await api.get(API_ENDPOINTS.getAllProducts);
                 console.log("Fetched products:", response.data);
                 if (Array.isArray(response.data)) {
                     setProducts(response.data.slice(0, 4));

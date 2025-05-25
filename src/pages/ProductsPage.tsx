@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router';
 import ProductCard from '../components/common/ProductCard';
 import FilterSection from '../components/common/FilterSection';
+import api from '../lib/axios';
+import { API_ENDPOINTS } from '../lib/apiConfig';
 
 interface Product {
     id: number;
@@ -26,262 +29,293 @@ interface Product {
     company: string;
   }
   
-interface Subcategory {
-    id: number;
-    name: string;
-    count: number;
-  }  
+const fallbackProducts: Product[] = [
+  {
+    id: 1,
+    name: 'AMBER DECOR Small Lamp 60W, E27 S90',
+    price: 45.0,
+    oldPrice: 60.0,
+    brand: 'AMBER DECOR',
+    partNo: '224456',
+    image: 'https://via.placeholder.com/150/FFD700/000000?text=Lamp',
+    bulbType: 'E27',
+    maxBulbPower: 60,
+    inStock: true,
+    category: 'Lighting',
+    rating: 4.5,
+    discount: 20,
+    company: 'Amber Lighting Co.',
+    parameters: ['Bulb type: E27', 'Max power: 60W']
+  },
+  {
+    id: 2,
+    name: 'EGLO Philips GU10 3 pcs.',
+    price: 45.0,
+    oldPrice: 60.0,
+    brand: 'EGLO',
+    partNo: '335661',
+    image: 'https://via.placeholder.com/150/FFFFFF/000000?text=Philips',
+    inStock: true,
+    category: 'Lighting',
+    rating: 4.8,
+    discount: 25,
+    company: 'EGLO Group',
+    parameters: ['Set of 3', 'Standard GU10']
+  },
+  {
+    id: 3,
+    name: 'LED Dual G9 bulb 3 pcs.',
+    price: 45.0,
+    oldPrice: 65.0,
+    brand: 'LED',
+    partNo: '349925',
+    image: 'https://via.placeholder.com/150/FFFFFF/000000?text=LED',
+    lumens: 450,
+    inStock: true,
+    category: 'Lighting',
+    rating: 4.2,
+    discount: 30,
+    company: 'LED Tech Co.',
+    parameters: ['Luminous flux: 450lm', 'Pack of 3']
+  },
+  {
+    id: 4,
+    name: 'LED Dual A60 bulb transparent warm color',
+    price: 45.0,
+    oldPrice: 60.0,
+    brand: 'LED',
+    partNo: '320456',
+    image: 'https://via.placeholder.com/150/FFFAF0/000000?text=A60',
+    bulbType: 'E27',
+    wattage: 9,
+    inStock: true,
+    category: 'Lighting',
+    rating: 4.6,
+    discount: 25,
+    company: 'LED Tech Co.',
+    parameters: ['Wattage: 9W', 'Warm color']
+  },
+  {
+    id: 5,
+    name: 'LED Dual R80 bulb milky warm color 2 pcs.',
+    price: 45.0,
+    oldPrice: 60.0,
+    brand: 'LED',
+    partNo: '223995',
+    image: 'https://via.placeholder.com/150/FFFFFF/000000?text=R80',
+    bulbType: 'E27',
+    wattage: 10,
+    inStock: true,
+    category: 'Lighting',
+    rating: 4.3,
+    discount: 25,
+    company: 'LED Tech Co.',
+    parameters: ['Wattage: 10W', 'Pack of 2']
+  },
+  {
+    id: 6,
+    name: 'LED Dual B35 bulb DIM transparent neutral color',
+    price: 45.0,
+    oldPrice: 60.0,
+    brand: 'LED',
+    partNo: '226655',
+    image: 'https://via.placeholder.com/150/FFFAF0/000000?text=B35',
+    bulbType: 'E14',
+    wattage: 4,
+    inStock: true,
+    category: 'Lighting',
+    rating: 4.7,
+    discount: 25,
+    company: 'LED Tech Co.',
+    parameters: ['Dimmable', 'Wattage: 4W']
+  },
+  {
+    id: 7,
+    name: 'Ladystena P45 LED, milky, warm color',
+    price: 45.0,
+    oldPrice: 60.0,
+    brand: 'Ladystena',
+    partNo: '319545',
+    image: 'https://via.placeholder.com/150/FFFAF0/000000?text=P45',
+    bulbType: 'E14',
+    wattage: 5,
+    inStock: true,
+    category: 'Lighting',
+    rating: 4.4,
+    discount: 25,
+    company: 'Ladystena Ltd.',
+    parameters: ['Warm light', 'Milky finish']
+  },
+  {
+    id: 8,
+    name: 'LED Dial A60 bulb neutral milky color',
+    price: 45.0,
+    oldPrice: 60.0,
+    brand: 'LED',
+    partNo: '311488',
+    image: 'https://via.placeholder.com/150/FFFFFF/000000?text=A60',
+    bulbType: 'E27',
+    wattage: 7,
+    inStock: true,
+    category: 'Lighting',
+    rating: 4.1,
+    discount: 25,
+    company: 'LED Dial Inc.',
+    parameters: ['Neutral color', 'Wattage: 7W']
+  },
+  {
+    id: 9,
+    name: 'Faucet kit basin + handle OmoKee round',
+    price: 45.0,
+    oldPrice: 60.0,
+    brand: 'OmoKee',
+    partNo: '765431',
+    image: 'https://via.placeholder.com/150/C0C0C0/000000?text=Faucet',
+    material: 'aluminum',
+    inStock: true,
+    category: 'Bathroom',
+    rating: 4.9,
+    discount: 25,
+    company: 'OmoKee Home',
+    parameters: ['Material: aluminum', 'Includes handle']
+  },
+  {
+    id: 10,
+    name: 'Countertop washbasin GoodHome Tekapo',
+    price: 55.0,
+    oldPrice: 65.0,
+    brand: 'GoodHome',
+    partNo: '433879',
+    image: 'https://via.placeholder.com/150/FFFFFF/000000?text=Basin',
+    beamWidth: 35,
+    beamHeight: 12,
+    inStock: true,
+    category: 'Bathroom',
+    rating: 4.8,
+    discount: 15,
+    company: 'GoodHome Bathroom',
+    parameters: ['Width: 35cm', 'Height: 12cm']
+  },
+  {
+    id: 11,
+    name: 'Waterproof Silicone tape 25 x 2 mm',
+    price: 55.0,
+    oldPrice: 65.0,
+    brand: 'Silicone',
+    partNo: '556789',
+    image: 'https://via.placeholder.com/150/87CEFA/000000?text=Tape',
+    beamWidth: 2,
+    beamHeight: 25,
+    inStock: true,
+    category: 'Hardware',
+    rating: 4.3,
+    discount: 15,
+    company: 'Silicone Solutions',
+    parameters: ['Size: 25x2 mm', 'Waterproof']
+  },
+  {
+    id: 12,
+    name: 'AMBER DECOR Bulb 60W, E27 S90',
+    price: 55.0,
+    oldPrice: 65.0,
+    brand: 'AMBER DECOR',
+    partNo: '224457',
+    image: 'https://via.placeholder.com/150/FFD700/000000?text=Bulb',
+    bulbType: 'E27',
+    beamHeight: 12,
+    inStock: false,
+    delivery: 'Est. delivery date: 01.12.2022',
+    category: 'Lighting',
+    rating: 4.7,
+    discount: 15,
+    company: 'Amber Lighting Co.',
+    parameters: ['Bulb type: E27', 'Beam height: 12cm']
+  }
+];
 
 const ProductListPage = () => {
+  const [hasFilteredOnce, setHasFilteredOnce] = useState(false);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [resultsCount, setResultsCount] = useState(0);
-  const [view, setView] = useState<'grid' | 'list'>('grid');
-  const [itemsPerPage, setItemsPerPage] = useState(9);
-  const [currentPage, setCurrentPage] = useState(1);
 
-  const subcategories: Subcategory[] = [
-    { id: 1, name: 'Subcategory 1', count: 158 },
-    { id: 2, name: 'Subcategory 2', count: 852 },
-    { id: 3, name: 'Subcategory 3', count: 1523 },
-    { id: 4, name: 'Subcategory 4', count: 24 },
-    { id: 5, name: 'Subcategory 5', count: 12956 }
-  ];
+  const [view, setView] = useState<'grid' | 'list'>(() => {
+    const saved = localStorage.getItem('view');
+    return saved === 'list' || saved === 'grid' ? saved : 'grid';
+  });
+  const [sort, setSort] = useState<string>(() => localStorage.getItem('sort') || 'popular');
+  const [itemsPerPage, setItemsPerPage] = useState<number>(() =>
+    Number(localStorage.getItem('itemsPerPage')) || 9
+  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
 
-  const filters = {
-    group1: [
-      { id: 1, name: 'Filter 1', count: 45 },
-      { id: 2, name: 'Filter 2', count: 28 },
-      { id: 3, name: 'Filter 3', count: 36 },
-      { id: 4, name: 'Filter 4', count: 52 },
-      { id: 5, name: 'Filter 5', count: 17 },
-      { id: 6, name: 'Filter 6', count: 21 },
-      { id: 7, name: 'Filter 7', count: 43 },
-      { id: 8, name: 'Filter 8', count: 62 }
-    ],
-    group2: [
-      { id: 1, name: 'Filter 1', count: 45 },
-      { id: 2, name: 'Filter 2', count: 28 }
-    ]
+  const changePage = (page: number) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('page', String(page));
+    setSearchParams(newParams, { replace: false });
   };
 
-  const colorFilters = [
-    'red', 'brown', 'yellow', 'green', 'blue', 'indigo', 'purple', 'pink'
-  ];
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);  
+  
+  useEffect(() => {
+    localStorage.setItem('view', view);
+  }, [view]);
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      const mockProducts: Product[] = [
-        {
-          id: 10000,
-          name: 'AMBER DECOR Small Lamp 60W, E27 S90',
-          price: 45.0,
-          oldPrice: 60.0,
-          brand: 'AMBER DECOR',
-          partNo: '224456',
-          image: 'https://via.placeholder.com/150/FFD700/000000?text=Lamp',
-          bulbType: 'E27',
-          maxBulbPower: 60,
-          inStock: true,
-          category: 'Lighting',
-          rating: 4.5,
-          discount: 20,
-          company: 'Amber Lighting Co.',
-          parameters: ['Bulb type: E27', 'Max power: 60W']
-        },
-        {
-          id: 2,
-          name: 'EGLO Philips GU10 3 pcs.',
-          price: 45.0,
-          oldPrice: 60.0,
-          brand: 'EGLO',
-          partNo: '335661',
-          image: 'https://via.placeholder.com/150/FFFFFF/000000?text=Philips',
-          inStock: true,
-          category: 'Lighting',
-          rating: 4.8,
-          discount: 25,
-          company: 'EGLO Group',
-          parameters: ['Set of 3', 'Standard GU10']
-        },
-        {
-          id: 3,
-          name: 'LED Dual G9 bulb 3 pcs.',
-          price: 45.0,
-          oldPrice: 65.0,
-          brand: 'LED',
-          partNo: '349925',
-          image: 'https://via.placeholder.com/150/FFFFFF/000000?text=LED',
-          lumens: 450,
-          inStock: true,
-          category: 'Lighting',
-          rating: 4.2,
-          discount: 30,
-          company: 'LED Tech Co.',
-          parameters: ['Luminous flux: 450lm', 'Pack of 3']
-        },
-        {
-          id: 4,
-          name: 'LED Dual A60 bulb transparent warm color',
-          price: 45.0,
-          oldPrice: 60.0,
-          brand: 'LED',
-          partNo: '320456',
-          image: 'https://via.placeholder.com/150/FFFAF0/000000?text=A60',
-          bulbType: 'E27',
-          wattage: 9,
-          inStock: true,
-          category: 'Lighting',
-          rating: 4.6,
-          discount: 25,
-          company: 'LED Tech Co.',
-          parameters: ['Wattage: 9W', 'Warm color']
-        },
-        {
-          id: 5,
-          name: 'LED Dual R80 bulb milky warm color 2 pcs.',
-          price: 45.0,
-          oldPrice: 60.0,
-          brand: 'LED',
-          partNo: '223995',
-          image: 'https://via.placeholder.com/150/FFFFFF/000000?text=R80',
-          bulbType: 'E27',
-          wattage: 10,
-          inStock: true,
-          category: 'Lighting',
-          rating: 4.3,
-          discount: 25,
-          company: 'LED Tech Co.',
-          parameters: ['Wattage: 10W', 'Pack of 2']
-        },
-        {
-          id: 6,
-          name: 'LED Dual B35 bulb DIM transparent neutral color',
-          price: 45.0,
-          oldPrice: 60.0,
-          brand: 'LED',
-          partNo: '226655',
-          image: 'https://via.placeholder.com/150/FFFAF0/000000?text=B35',
-          bulbType: 'E14',
-          wattage: 4,
-          inStock: true,
-          category: 'Lighting',
-          rating: 4.7,
-          discount: 25,
-          company: 'LED Tech Co.',
-          parameters: ['Dimmable', 'Wattage: 4W']
-        },
-        {
-          id: 7,
-          name: 'Ladystena P45 LED, milky, warm color',
-          price: 45.0,
-          oldPrice: 60.0,
-          brand: 'Ladystena',
-          partNo: '319545',
-          image: 'https://via.placeholder.com/150/FFFAF0/000000?text=P45',
-          bulbType: 'E14',
-          wattage: 5,
-          inStock: true,
-          category: 'Lighting',
-          rating: 4.4,
-          discount: 25,
-          company: 'Ladystena Ltd.',
-          parameters: ['Warm light', 'Milky finish']
-        },
-        {
-          id: 8,
-          name: 'LED Dial A60 bulb neutral milky color',
-          price: 45.0,
-          oldPrice: 60.0,
-          brand: 'LED',
-          partNo: '311488',
-          image: 'https://via.placeholder.com/150/FFFFFF/000000?text=A60',
-          bulbType: 'E27',
-          wattage: 7,
-          inStock: true,
-          category: 'Lighting',
-          rating: 4.1,
-          discount: 25,
-          company: 'LED Dial Inc.',
-          parameters: ['Neutral color', 'Wattage: 7W']
-        },
-        {
-          id: 9,
-          name: 'Faucet kit basin + handle OmoKee round',
-          price: 45.0,
-          oldPrice: 60.0,
-          brand: 'OmoKee',
-          partNo: '765431',
-          image: 'https://via.placeholder.com/150/C0C0C0/000000?text=Faucet',
-          material: 'aluminum',
-          inStock: true,
-          category: 'Bathroom',
-          rating: 4.9,
-          discount: 25,
-          company: 'OmoKee Home',
-          parameters: ['Material: aluminum', 'Includes handle']
-        },
-        {
-          id: 10,
-          name: 'Countertop washbasin GoodHome Tekapo',
-          price: 55.0,
-          oldPrice: 65.0,
-          brand: 'GoodHome',
-          partNo: '433879',
-          image: 'https://via.placeholder.com/150/FFFFFF/000000?text=Basin',
-          beamWidth: 35,
-          beamHeight: 12,
-          inStock: true,
-          category: 'Bathroom',
-          rating: 4.8,
-          discount: 15,
-          company: 'GoodHome Bathroom',
-          parameters: ['Width: 35cm', 'Height: 12cm']
-        },
-        {
-          id: 11,
-          name: 'Waterproof Silicone tape 25 x 2 mm',
-          price: 55.0,
-          oldPrice: 65.0,
-          brand: 'Silicone',
-          partNo: '556789',
-          image: 'https://via.placeholder.com/150/87CEFA/000000?text=Tape',
-          beamWidth: 2,
-          beamHeight: 25,
-          inStock: true,
-          category: 'Hardware',
-          rating: 4.3,
-          discount: 15,
-          company: 'Silicone Solutions',
-          parameters: ['Size: 25x2 mm', 'Waterproof']
-        },
-        {
-          id: 12,
-          name: 'AMBER DECOR Bulb 60W, E27 S90',
-          price: 55.0,
-          oldPrice: 65.0,
-          brand: 'AMBER DECOR',
-          partNo: '224457',
-          image: 'https://via.placeholder.com/150/FFD700/000000?text=Bulb',
-          bulbType: 'E27',
-          beamHeight: 12,
-          inStock: false,
-          delivery: 'Est. delivery date: 01.12.2022',
-          category: 'Lighting',
-          rating: 4.7,
-          discount: 15,
-          company: 'Amber Lighting Co.',
-          parameters: ['Bulb type: E27', 'Beam height: 12cm']
+    localStorage.setItem('sort', sort);
+  }, [sort]);
+
+  useEffect(() => {
+    localStorage.setItem('itemsPerPage', itemsPerPage.toString());
+  }, [itemsPerPage]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const response = await api.get(API_ENDPOINTS.getAllProducts);
+        console.log('Fetched products:', response.data);
+
+        let fetchedProducts: Product[] = [];
+
+        if (Array.isArray(response.data)) {
+          fetchedProducts = response.data;
+        } else if (Array.isArray(response.data.data)) {
+          fetchedProducts = response.data.data;
+        } else {
+          console.warn("Dữ liệu từ API không hợp lệ, sử dụng fallback.");
+          fetchedProducts = fallbackProducts;
         }
-      ];      
-      
-      setProducts(mockProducts);
-      setResultsCount(mockProducts.length);
-      setLoading(false);
-    }, 500);
+
+        setProducts(fetchedProducts);
+        setResultsCount(fetchedProducts.length);
+      } catch (error) {
+        console.error('Lỗi khi gọi API:', error);
+        setProducts(fallbackProducts);
+        setResultsCount(fallbackProducts.length);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
+  const handleFilterChange = (filtered: Product[]) => {
+    setProducts(filtered);
+    setResultsCount(filtered.length);
+    if (hasFilteredOnce && currentPage !== 1) {
+      changePage(1);
+    }  
+    if (!hasFilteredOnce) {
+      setHasFilteredOnce(true);
+    }
+  };
+  
   const paginatedProducts = products.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -299,24 +333,11 @@ const ProductListPage = () => {
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left Sidebar */}
           <div className="w-full md:w-1/4">
-            <FilterSection 
-              subcategories={subcategories}
-              filters={filters}
-              colorFilters={colorFilters}
-            />
+            <FilterSection onFilterChange={handleFilterChange} fallbackProducts={fallbackProducts} />
           </div>
   
           {/* Right Content Section */}
-          <div className="w-full md:w-3/4">
-            {/* Title Section */}
-            <div className="mb-6">
-              <h1 className="text-2xl font-medium mb-2">Title of listing page</h1>
-              <p className="text-gray-600">
-                Single row angular contact bearings are capable of taking radial loads, axial loads in one direction...
-              </p>
-              <button className="text-blue-600 text-sm mt-1">Show more</button>
-            </div>
-  
+          <div className="w-full md:w-3/4"> 
             {/* Banner */}
             <div className="bg-blue-600 text-white p-6 rounded-md flex justify-between items-center mb-6">
               <h2 className="text-2xl font-medium">-20% on power tools</h2>
@@ -349,11 +370,11 @@ const ProductListPage = () => {
               {/* Sorting */}
               <div className="flex items-center space-x-2">
                 <label className="text-sm">Sort:</label>
-                <select className="border border-gray-300 rounded-md p-1 text-sm">
-                  <option>Popular items</option>
-                  <option>Price low to high</option>
-                  <option>Price high to low</option>
-                  <option>Newest first</option>
+                <select className="border border-gray-300 rounded-md p-1 text-sm" value={sort} onChange={(e) => setSort(e.target.value)}>
+                  <option value="popular">Popular items</option>
+                  <option value="priceLow">Price low to high</option>
+                  <option value="priceHigh">Price high to low</option>
+                  <option value="newest">Newest first</option>
                 </select>
               </div>
   
@@ -364,7 +385,6 @@ const ProductListPage = () => {
                     key={num}
                     onClick={() => {
                       setItemsPerPage(num);
-                      setCurrentPage(1);
                     }}
                     className={`w-8 h-8 flex items-center justify-center border rounded-md ${
                       itemsPerPage === num ? 'border-blue-600 text-blue-600' : 'border-gray-300'
@@ -388,7 +408,7 @@ const ProductListPage = () => {
               <>
                 <div className={`grid ${view === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-6 mb-8`}>
                   {paginatedProducts.map(product => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard product={product} />
                   ))}
                 </div>
   
@@ -396,37 +416,29 @@ const ProductListPage = () => {
                 <div className="flex justify-center mt-8 space-x-2">
                   <button
                     disabled={currentPage === 1}
-                    onClick={() => setCurrentPage(prev => prev - 1)}
-                    className="px-3 py-1 border rounded disabled:opacity-50 hover:bg-gray-200 transition"
-                    aria-label="Previous Page"
+                    onClick={() => changePage(currentPage - 1)}
+                    className="px-3 py-1 border rounded disabled:opacity-50 hover:bg-gray-200"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
 
-                  {[...Array(Math.ceil(products.length / itemsPerPage)).keys()].map(page => {
-                    const pageNum = page + 1;
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => setCurrentPage(pageNum)}
-                        className={`px-3 py-1 border rounded transition ${
-                          currentPage === pageNum
-                            ? 'bg-blue-600 text-white'
-                            : 'hover:bg-gray-200'
+                  {Array.from({ length: Math.ceil(products.length / itemsPerPage) }, (_, i) => (
+                    <button
+                      key={i + 1}
+                      onClick={() => changePage(i + 1)}
+                      className={`px-3 py-1 border rounded ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'
                         }`}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  })}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
 
                   <button
                     disabled={currentPage === Math.ceil(products.length / itemsPerPage)}
-                    onClick={() => setCurrentPage(prev => prev + 1)}
-                    className="px-3 py-1 border rounded disabled:opacity-50 hover:bg-gray-200 transition"
-                    aria-label="Next Page"
+                    onClick={() => changePage(currentPage + 1)}
+                    className="px-3 py-1 border rounded disabled:opacity-50 hover:bg-gray-200"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

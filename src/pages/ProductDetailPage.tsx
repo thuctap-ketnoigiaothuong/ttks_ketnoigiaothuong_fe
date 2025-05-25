@@ -17,7 +17,7 @@ interface DiscountTier {
     price: string;
   }
   
-export interface Product {
+interface Product {
     id: number;
     name: string;
     brand: string;
