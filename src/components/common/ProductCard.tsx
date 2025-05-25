@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import { useCart } from '../../context/CardContext';
 
 interface ProductCardProps {
@@ -29,6 +29,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { cart, addToCart } = useCart();
   const [showAddedMessage, setShowAddedMessage] = useState(false);
@@ -62,7 +63,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   const handleCardClick = () => {
-    navigate(`/products/${product.id}`);
+    navigate(`/products/${product.id}${location.search}`);
   };
   
   const handleContactCompany = () => {

@@ -15,9 +15,13 @@ export const API_ENDPOINTS = {
     deleteCompanyInfo: (company_id: number) => `${API_BASE_URL}/company/delete/${company_id}`,
     getInfoByEmailPhone: `${API_BASE_URL}/company/get-by-email-phone`,
 
-    products: `${API_BASE_URL}/products`,
-    categories: `${API_BASE_URL}/categories`,
-    events: `${API_BASE_URL}/events`,
-    articles: `${API_BASE_URL}/articles`,
-    brands: `${API_BASE_URL}/brands`,
+    getAllProducts: `${API_BASE_URL}/products`,
+    getAllCategories: `${API_BASE_URL}/categories`,
+    getAllEvents: `${API_BASE_URL}/events`,
+    getAllArticles: `${API_BASE_URL}/articles`,
+    getAllBrands: `${API_BASE_URL}/brands`,
+    filters: `${API_BASE_URL}/filters`, // chưa đổi tên api
+    getAllColors: `${API_BASE_URL}/colors`,
+    getMaxPrice: `${API_BASE_URL}/maxPrice`,
+    getProductsByFilters: `${API_BASE_URL}/products/get-by-filters`,
 };

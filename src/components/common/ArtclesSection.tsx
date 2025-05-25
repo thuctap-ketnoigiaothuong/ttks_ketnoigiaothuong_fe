@@ -51,7 +51,7 @@ export const ArticlesSection = () => {
     useEffect(() => {
         const fetchArticles = async () => {
             try {
-                const res = await api.get(API_ENDPOINTS.articles);
+                const res = await api.get(API_ENDPOINTS.getAllArticles);
                 console.log("Fetched articles:", res.data);
                 if (Array.isArray(res.data)) {
                 setArticles(res.data.slice(0, 4));
