@@ -16,6 +16,7 @@ interface Product {
   inStock: boolean;
   isAddedToCart?: boolean;
   company: string;
+  companyId: number;
   category: string;
   rating: number;
 }
@@ -37,6 +38,7 @@ const fallbackProducts: Product[] = [
     oldPrice: 55,
     inStock: true,
     company: 'Omnires Ltd.',
+    companyId: 101,
     category: 'Bathroom',
     rating: 4.6
   },
@@ -52,6 +54,7 @@ const fallbackProducts: Product[] = [
     oldPrice: 64,
     inStock: true,
     company: 'GoodHome',
+    companyId: 102,
     category: 'Bathroom',
     rating: 4.8
   },
@@ -68,6 +71,7 @@ const fallbackProducts: Product[] = [
     inStock: true,
     isAddedToCart: true,
     company: 'GoodHome',
+    companyId: 102,
     category: 'Hardware',
     rating: 4.3
   },
@@ -83,6 +87,7 @@ const fallbackProducts: Product[] = [
     oldPrice: 64,
     inStock: false,
     company: 'Amber Decor',
+    companyId: 103,
     category: 'Lighting',
     rating: 4.1
   }
@@ -95,7 +100,7 @@ export function RelatedProducts({ title }: RelatedProductsProps) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await api.get(API_ENDPOINTS.products);
+        const response = await api.get(API_ENDPOINTS.getAllProducts);
         if (Array.isArray(response.data)) {
           setProducts(response.data.slice(0, 4));
         } else if (Array.isArray(response.data.data)) {
@@ -121,11 +126,7 @@ export function RelatedProducts({ title }: RelatedProductsProps) {
   return (
     <section className="py-6 px-20 bg-white">
       <div className="flex justify-between w-full mb-8">
-        <h2 className="text-3xl font-bold leading-tight text-neutral-950">{title}</h2>
-        {/* <button className="flex gap-1 items-center text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
-          <span>Show all recommended products</span>
-          <img src="arrowright.png" alt="Arrow right" className="w-4" />
-        </button> */}
+        <h2 className="text-2xl font-bold leading-tight text-neutral-950">{title}</h2>
       </div>
 
       <div className="w-full">

@@ -19,8 +19,6 @@ interface Product {
   unit: string;
   quantity: number;
   images: string[];
-  mainImage: string;
-  discount: string;
 }
 
 type ProductInfoProps = {
@@ -75,9 +73,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
         <div className="mt-6 w-full rounded-lg max-w-[622px] max-md:max-w-full">
           <div className="flex flex-wrap gap-5 justify-between text-sm leading-6 text-zinc-500">
-            <span>Quantity</span>
-            <span>Discount</span>
-            <span className="text-right">Price net</span>
+            <span>Số lượng</span>
+            <span>Giảm giá</span>
+            <span className="text-right">Đơn giá</span>
           </div>
 
           <hr className="mt-2 h-px rounded-lg bg-slate-50" />
@@ -135,11 +133,11 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
             <div className="flex flex-wrap gap-4 items-center mt-4">
               <button className="flex gap-1 justify-center items-center py-2 text-base font-medium text-white bg-blue-600 min-w-60 rounded-[30px] w-[75%]">
-                <span>Add to cart</span>
+                <span>Thêm vào giỏ</span>
               </button>
 
               {/* Action buttons */}
-              <button aria-label="Add to favorites">
+              {/* <button aria-label="Add to favorites">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets/.../heart-icon"
                   className="object-contain w-11 aspect-square"
@@ -152,7 +150,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                   className="object-contain w-11 aspect-square"
                   alt="Compare icon"
                 />
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

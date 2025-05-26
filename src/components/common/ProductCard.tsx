@@ -25,6 +25,7 @@ interface ProductCardProps {
     rating: number;
     discount: number;
     company: string;
+    companyId: number;
   };
 }
 
@@ -67,7 +68,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
   
   const handleContactCompany = () => {
-    navigate(`/companies?search=${encodeURIComponent(product.company)}`);
+    navigate(`/companies/${product.companyId}`);
   };
 
   return (
@@ -140,10 +141,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </div>
 
             <button
-              onClick={handleContactCompany}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleContactCompany();
+              }}
               className="w-full px-4 py-2 mt-3 text-sm font-medium text-blue-600 border border-blue-600 rounded-full hover:bg-blue-50"
             >
-              Contact company
+              Liên hệ
             </button>
 
             <button
@@ -153,7 +157,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 product.inStock ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'
               }`}
             >
-              {isAlreadyInCart ? 'Update cart' : 'Add to cart'}
+              {isAlreadyInCart ? 'Cập nhật' : 'Thêm vào giỏ'}
             </button>
           </div>
         </div>
@@ -162,7 +166,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {showAddedMessage && (
         <div className="flex gap-2 justify-center px-6 py-2 text-blue-600 bg-sky-100 mt-3 rounded">
           <img src="/products/added.png" alt="Success" className="w-4 h-4" />
-          <p className="text-blue-600 text-sm">Added to cart</p>
+          <p className="text-blue-600 text-sm">Đã thêm vào giỏ</p>
         </div>
       )}
     </article>

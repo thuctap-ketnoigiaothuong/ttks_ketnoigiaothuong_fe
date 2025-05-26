@@ -5,8 +5,7 @@ import { API_ENDPOINTS } from '../lib/apiConfig';
 
 import { ProductGallery } from "../components/common/ProductGallery";
 import { ProductInfo } from "../components/common/ProductInfo";
-import { ExtraOfferSection } from "../components/common/ExtraOfferSection";
-import { MeetSalesExpert } from "../components/common/MeetSalesExpert";
+import { CompanyCard } from '../components/common/CompanyCard';
 import { ProductTabs } from "../components/common/ProductTabs";
 import { NewsletterBanner } from "../components/common/NewsletterBanner";
 import { RelatedProducts } from "../components/common/RelatedProducts";
@@ -17,7 +16,23 @@ interface DiscountTier {
     price: string;
   }
   
-interface Product {
+  interface Review {
+    name: string;
+    comment: string;
+    rating: number;
+  }
+  
+  interface ShippingInfo {
+    description: string;
+    types: { type: string; cost: string }[];
+  }
+  
+  interface PaymentInfo {
+    description: string;
+    methods: { type: string; info: string }[];
+  }
+  
+  interface Product {
     id: number;
     name: string;
     brand: string;
@@ -32,11 +47,16 @@ interface Product {
     unit: string;
     quantity: number;
     images: string[];
-    mainImage: string;
-    discount: string;
-  }  
-
-const fallbackProduct = {
+    companyId: number;
+    description?: string;
+    technicalDetails?: Record<string, string>;
+    attachments?: string[];
+    reviews?: Review[];
+    shipping?: ShippingInfo;
+    payments?: PaymentInfo;
+  }
+  
+  const fallbackProduct = {
     id: 10000,
     name: 'Product name for maximum two text lines title could be very long',
     brand: 'Omnires',
@@ -55,13 +75,42 @@ const fallbackProduct = {
     unit: 'Item',
     quantity: 1,
     images: [
-        "https://cdn.builder.io/api/v1/image/assets/182fee6bb5c14645ac126407c1ee5eb2/784a74b95eb04a2096f1ec0ab5f6fdf1e42a7aa6?placeholderIfAbsent=true",
-        "https://cdn.builder.io/api/v1/image/assets/182fee6bb5c14645ac126407c1ee5eb2/784a74b95eb04a2096f1ec0ab5f6fdf1e42a7aa6?placeholderIfAbsent=true",
-        "https://cdn.builder.io/api/v1/image/assets/182fee6bb5c14645ac126407c1ee5eb2/784a74b95eb04a2096f1ec0ab5f6fdf1e42a7aa6?placeholderIfAbsent=true",
+      "https://cdn.builder.io/api/v1/image/assets/182fee6bb5c14645ac126407c1ee5eb2/784a74b95eb04a2096f1ec0ab5f6fdf1e42a7aa6?placeholderIfAbsent=true",
+      "https://cdn.builder.io/api/v1/image/assets/182fee6bb5c14645ac126407c1ee5eb2/784a74b95eb04a2096f1ec0ab5f6fdf1e42a7aa6?placeholderIfAbsent=true",
+      "https://cdn.builder.io/api/v1/image/assets/182fee6bb5c14645ac126407c1ee5eb2/784a74b95eb04a2096f1ec0ab5f6fdf1e42a7aa6?placeholderIfAbsent=true",
     ],
-    mainImage: "https://cdn.builder.io/api/v1/image/assets/182fee6bb5c14645ac126407c1ee5eb2/784a74b95eb04a2096f1ec0ab5f6fdf1e42a7aa6?placeholderIfAbsent=true.jpg",
-    discount: "-30%",
-  };  
+    companyId: 1,
+    description: "Đây là mô tả mẫu cho sản phẩm.",
+    technicalDetails: {
+      "Chất liệu": "Nhôm cao cấp",
+      "Cân nặng": "1.5kg",
+      "Màu sắc": "Xám bạc",
+    },
+    attachments: [
+      "/docs/tai-lieu-ky-thuat.pdf",
+      "/docs/huong-dan-su-dung.pdf",
+    ],
+    reviews: [
+      { name: "Nguyễn Văn A", rating: 5, comment: "Sản phẩm rất tốt!" },
+      { name: "Trần Thị B", rating: 4, comment: "Giao hàng nhanh, chất lượng ổn." },
+    ],
+    shipping: {
+      description: "Giao hàng tận nơi trong 3-5 ngày làm việc.",
+      types: [
+        { type: "Tiêu chuẩn", cost: "$5.00" },
+        { type: "Nhanh", cost: "$10.00" },
+        { type: "Hỏa tốc", cost: "$20.00" },
+      ],
+    },
+    payments: {
+      description: "Chúng tôi hỗ trợ các hình thức thanh toán sau.",
+      methods: [
+        { type: "Thẻ tín dụng", info: "Visa, MasterCard, JCB" },
+        { type: "Chuyển khoản ngân hàng", info: "Miễn phí" },
+        { type: "COD", info: "Thanh toán khi nhận hàng" },
+      ],
+    },
+  };
 
 const ProductDetailPage = () => {
     console.log("ProductDetailPage rendered");
@@ -76,12 +125,19 @@ const ProductDetailPage = () => {
         setLoading(false);
         return;
       }
-      console.log("productId param:", productId);
     
+      const numericProductId = parseInt(productId ?? '', 10);
+      if (isNaN(numericProductId)) {
+        console.warn("productId không hợp lệ.");
+        setProduct(fallbackProduct);
+        setLoading(false);
+        return;
+      }
+
       const fetchProductDetail = async () => {
         try {
-          const res = await api.get<{ data: Product }>(`${API_ENDPOINTS.products}/${productId}`);
-          const fetchedProduct = res.data?.data ?? res.data;
+          const res = await api.get<Product>(API_ENDPOINTS.getProductById(numericProductId));
+          const fetchedProduct = res.data;
     
           if (typeof fetchedProduct === 'object') {
             setProduct(fetchedProduct);
@@ -98,7 +154,7 @@ const ProductDetailPage = () => {
       };
     
       fetchProductDetail();
-    }, [productId]);
+    }, [productId]);    
 
     if (loading) return <div>Đang tải sản phẩm...</div>;
     if (!product) return <div>Không tìm thấy sản phẩm.</div>;
@@ -109,7 +165,7 @@ const ProductDetailPage = () => {
         <div className="mt-11 w-full max-md:mt-10 max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col">
             <div className="w-6/12 max-md:w-full">
-                <ProductGallery images={product.images} mainImage={product.mainImage} discount={product.discount} />
+                <ProductGallery images={product.images}/>
             </div>
             <div className="w-6/12 max-md:w-full">
                 <ProductInfo product={product} />
@@ -118,19 +174,14 @@ const ProductDetailPage = () => {
         </div>
 
         <div className="flex gap-5 mt-20 max-md:flex-col">
-          <ExtraOfferSection />
-          <MeetSalesExpert />
+          {product.companyId && <CompanyCard companyId={product.companyId} />}
         </div>
 
-        <ProductTabs />
+        <ProductTabs product={product} />
       </section>
 
       <NewsletterBanner />
-      {/* <RelatedProducts title="Featured products" />
-      <RelatedProducts title="Replacement products" />
-      <RelatedProducts title="Products from the same series" />
-      <RelatedProducts title="Similar products" /> */}
-      <RelatedProducts title="Related products" />
+      <RelatedProducts title="Sản phẩm liên quan" />
     </main>
   );
 }

@@ -9,6 +9,7 @@ import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
 import ProductsPage from '../pages/ProductsPage';
 import ProductDetailPage from '../pages/ProductDetailPage';
+import CompanyProfilePage from '../pages/CompanyProfilePage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -37,6 +38,12 @@ const router = createBrowserRouter([
                 children: [
                   { index: true, Component: ProductsPage },
                   { path: ':productId', Component: ProductDetailPage },
+                ],
+            },
+            { path: 'companies',
+                children: [
+                //   { index: true, Component: ProductsPage },
+                  { path: ':companyId', Component: CompanyProfilePage },
                 ],
             },
             {

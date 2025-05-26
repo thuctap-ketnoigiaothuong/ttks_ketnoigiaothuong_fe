@@ -2,11 +2,9 @@ import { useState } from 'react';
 
 type ProductGalleryProps = {
   images: string[];
-  mainImage: string;
-  discount?: string;
 };
 
-export function ProductGallery({ images, mainImage, discount }: ProductGalleryProps) {
+export function ProductGallery({ images }: ProductGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   
   const handlePrevious = () => {
@@ -34,7 +32,7 @@ export function ProductGallery({ images, mainImage, discount }: ProductGalleryPr
           <button
             key={i}
             aria-label={`Select thumbnail ${i + 1}`}
-            className={`mt-4 rounded-md border-2 transition ${
+            className={`mt-4 rounded-lg border-1 transition ${
               i === selectedIndex ? 'border-blue-600' : 'border-transparent'
             } hover:border-blue-400`}
             onClick={() => setSelectedIndex(i)}
@@ -56,12 +54,6 @@ export function ProductGallery({ images, mainImage, discount }: ProductGalleryPr
 
       <div className="relative flex-col grow shrink-0 py-4 pr-4 min-h-full w-fit max-md:max-w-full">
         <img src={images[selectedIndex]} className="object-cover absolute inset-0 size-full" alt="Main product" />
-
-        {/* {discount && (
-          <div className="relative z-10 self-start px-2 py-1 text-sm font-semibold leading-6 text-white whitespace-nowrap bg-orange-500">
-            {discount}
-          </div>
-        )} */}
       </div>
     </section>
   );
