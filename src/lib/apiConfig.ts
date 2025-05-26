@@ -25,4 +25,7 @@ export const API_ENDPOINTS = {
     getAllColors: `${API_BASE_URL}/colors`,
     getMaxPrice: `${API_BASE_URL}/maxPrice`,
     getProductsByFilters: `${API_BASE_URL}/products/get-by-filters`,
+    updateProductReview: (productId: number) => `${API_BASE_URL}/products/${productId}/reviews`,
+    updateProductQuestion: (productId: number) => `${API_BASE_URL}/products/${productId}/questions`,
+    getProductQuestions: (productId: number) => `${API_BASE_URL}/products/${productId}/questions`,
 };

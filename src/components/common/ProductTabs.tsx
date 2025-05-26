@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
+import api from "../../lib/axios";
+import { API_ENDPOINTS } from "../../lib/apiConfig";
 
 interface Review {
   name: string;
@@ -15,6 +17,13 @@ interface ShippingInfo {
 interface PaymentInfo {
   description: string;
   methods: { type: string; info: string }[];
+}
+
+interface QA {
+  name: string;
+  email: string;
+  question: string;
+  answer?: string;
 }
 
 interface Product {
@@ -43,6 +52,7 @@ interface Product {
   reviews?: Review[];
   shipping?: ShippingInfo;
   payments?: PaymentInfo;
+  questions?: QA[];
 }
 
 export function ProductTabs({ product }: { product: Product }) {
@@ -51,6 +61,12 @@ export function ProductTabs({ product }: { product: Product }) {
   const [reviewRating, setReviewRating] = useState<number>(0);
   const [reviewName, setReviewName] = useState<string>("");
   const [reviewComment, setReviewComment] = useState<string>("");
+  const [updatedRating, setUpdatedRating] = useState<number>(product.rating);
+  const [updatedRatingCount, setUpdatedRatingCount] = useState<number>(product.ratingCount);
+  const [questionList, setQuestionList] = useState<QA[]>(product.questions ?? []);
+  const [qaName, setQaName] = useState("");
+  const [qaEmail, setQaEmail] = useState("");
+  const [qaQuestion, setQaQuestion] = useState("");
 
   const tabs = [
     { id: "description", label: "Description" },
@@ -171,7 +187,6 @@ export function ProductTabs({ product }: { product: Product }) {
 
         {activeTab === "reviews" && (
           <div className="flex flex-wrap items-start gap-10 p-6 bg-sky-100">
-            {/* DANH SÁCH ĐÁNH GIÁ */}
             <div className="flex-1 min-w-[300px]">
               <h3 className="text-2xl font-bold text-neutral-950">
                 Customer Reviews ({product.reviews?.length ?? 0})
@@ -220,28 +235,44 @@ export function ProductTabs({ product }: { product: Product }) {
               )}
             </div>
 
-            {/* FORM ĐÁNH GIÁ */}
+            {/* Form đánh giá */}
             <div className="flex-1 min-w-[300px]">
               <h3 className="text-2xl font-bold text-neutral-950 mb-4">Rate this product</h3>
 
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  if (!reviewName || !reviewComment || reviewRating === 0) return;
-
+                
+                  if (!reviewName || !reviewComment || reviewRating === 0) {
+                    alert("Vui lòng nhập đầy đủ thông tin và chọn số sao!");
+                    return;
+                  }
+                
                   const newReview = {
                     name: reviewName,
                     comment: reviewComment,
                     rating: reviewRating,
                   };
-
-                  setProductReviewList((prev) => [...prev, newReview]);
-
-                  // Reset form
-                  setReviewName("");
-                  setReviewComment("");
-                  setReviewRating(0);
-                }}
+                
+                  api
+                    .post(API_ENDPOINTS.updateProductReview(product.id), newReview)
+                    .then((res) => {
+                      const { review, rating, ratingCount } = res.data;
+                
+                      setProductReviewList((prev) => [...prev, review]);
+                      setUpdatedRating(rating);
+                      setUpdatedRatingCount(ratingCount);
+                
+                      // reset form
+                      setReviewName("");
+                      setReviewComment("");
+                      setReviewRating(0);
+                    })
+                    .catch((err) => {
+                      console.error("Lỗi khi gửi đánh giá:", err);
+                      alert("Gửi đánh giá thất bại.");
+                    });
+                }}                
                 className="space-y-4"
               >
                 {/* Rating chọn sao */}
@@ -308,30 +339,99 @@ export function ProductTabs({ product }: { product: Product }) {
           </div>
         )}
 
-        {activeTab === 'ask' && ( 
-          <div className="py-12 pl-12 w-full bg-sky-100"> 
-            <div className="w-full text-sm leading-6 text-zinc-700"> 
-              <p className="text-base text-neutral-950"> 
-                Are you curious about the product? Do you have question about using it? Ask us! 
-              </p> 
-              <div className="mt-4 w-full whitespace-nowrap min-h-[76px]"> 
-                <label className="block text-zinc-700">Name</label> 
-                <input type="text" className="flex gap-2 py-3 mt-1 w-full bg-white rounded-lg border border-solid min-h-12" /> 
-              </div> 
-              <div className="mt-4 w-full whitespace-nowrap min-h-[76px]"> 
-                <label className="block text-zinc-700">E-mail</label> 
-                <input type="email" className="flex gap-2 py-3 mt-1 w-full bg-white rounded-lg border border-solid min-h-12" /> 
-              </div> 
-              <div className="mt-4 w-full min-h-[133px]"> 
-                <label className="block text-zinc-700">Your request</label> 
-                <textarea className="flex gap-2 py-3 mt-1 w-full bg-white rounded-lg border border-solid min-h-[105px]" /> 
-              </div> 
-            </div> 
-            <button className="flex gap-2.5 justify-center items-center px-8 py-4 mt-6 w-full text-base leading-none text-white bg-blue-600 max-w-[467px] min-h-12 rounded-[30px]"> 
-              Send request 
-            </button> 
-          </div> 
-        )} 
+        {activeTab === 'ask' && (
+          <div className="flex flex-wrap gap-10 p-6 bg-sky-100">
+            {/* Form hỏi bên trái */}
+            <div className="flex-1 min-w-[300px]">
+              <h3 className="text-2xl font-bold text-neutral-950 mb-4">Ask a question</h3>
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!qaName || !qaEmail || !qaQuestion) {
+                    alert("Vui lòng điền đầy đủ thông tin!");
+                    return;
+                  }
+
+                  const newQA: QA = {
+                    name: qaName,
+                    email: qaEmail,
+                    question: qaQuestion,
+                    answer: undefined,
+                  };
+
+                  api.post(API_ENDPOINTS.updateProductQuestion(product.id), newQA)
+
+                  setQuestionList((prev) => [...prev, newQA]);
+
+                  setQaName("");
+                  setQaEmail("");
+                  setQaQuestion("");
+                }}
+                className="space-y-4"
+              >
+                <div>
+                  <label className="block font-medium">Name</label>
+                  <input
+                    type="text"
+                    value={qaName}
+                    onChange={(e) => setQaName(e.target.value)}
+                    className="w-full mt-1 p-2 border border-gray-300 rounded"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-medium">E-mail</label>
+                  <input
+                    type="email"
+                    value={qaEmail}
+                    onChange={(e) => setQaEmail(e.target.value)}
+                    className="w-full mt-1 p-2 border border-gray-300 rounded"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-medium">Your question</label>
+                  <textarea
+                    value={qaQuestion}
+                    onChange={(e) => setQaQuestion(e.target.value)}
+                    className="w-full mt-1 p-2 border border-gray-300 rounded min-h-[100px]"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-blue-600 text-white py-2 rounded"
+                >
+                  Send question
+                </button>
+              </form>
+            </div>
+
+            {/* Danh sách câu hỏi bên phải */}
+            <div className="flex-1 min-w-[300px]">
+              <h3 className="text-2xl font-bold text-neutral-950 mb-4">Previous Questions</h3>
+              {questionList.length === 0 ? (
+                <p className="text-gray-600">Chưa có câu hỏi nào.</p>
+              ) : (
+                <div className="space-y-4">
+                  {questionList.map((qa, idx) => (
+                    <div key={idx} className="bg-white p-4 rounded shadow">
+                      <p className="font-semibold">{qa.name} hỏi:</p>
+                      <p className="text-gray-800 italic mt-1">"{qa.question}"</p>
+                      {qa.answer && (
+                        <div className="mt-2 border-t pt-2">
+                          <p className="text-blue-700 font-semibold">Trả lời:</p>
+                          <p className="text-gray-700">{qa.answer}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
