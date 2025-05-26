@@ -36,6 +36,7 @@ interface Product {
   rating: number;
   discount: number;
   company: string;
+  companyId: number;
 }
 
 interface Props {
@@ -111,15 +112,13 @@ const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [subcatRes, filtersRes, colorsRes, priceRes] = await Promise.all([
+        const [subcatRes, colorsRes, priceRes] = await Promise.all([
           api.get(API_ENDPOINTS.getAllCategories),
-          api.get(API_ENDPOINTS.filters), // chưa đổi tên api
           api.get(API_ENDPOINTS.getAllColors),
           api.get(API_ENDPOINTS.getMaxPrice)
         ]);
 
         setSubcategories(Array.isArray(subcatRes?.data) ? subcatRes.data : fallbackSubcategories);
-        setFilters((filtersRes?.data && typeof filtersRes.data === 'object') ? filtersRes.data : fallbackFilters);
         setColorFilters(Array.isArray(colorsRes?.data) ? colorsRes.data : fallbackColors);
         const max = typeof priceRes?.data?.max === 'number' ? priceRes.data.max : 10000000;
         setMaxPrice(max);
@@ -192,13 +191,16 @@ const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
   
   return (
     <div className="w-full md:w-74 px-6 border-1 border-blue-300 rounded-[10px]">
+      <div className="flex justify-between items-center my-4">
+        <span className="text-blue-600 text-sm cursor-pointer" onClick={handleClearAll}>Xóa hết bộ lọc</span>
+      </div>
       {/* Subcategories */}
-      <div className="my-6">
+      <div className="mb-6">
         <div
           className="flex justify-between items-center mb-2 cursor-pointer"
           onClick={() => setShowSubcategories(prev => !prev)}
         >
-          <h2 className="font-medium">Subcategories</h2>
+          <h2 className="font-medium">Lĩnh vực</h2>
           <svg className={`h-4 w-4 transition-transform ${showSubcategories ? 'rotate-0 text-blue-600' : 'rotate-180'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
@@ -229,7 +231,7 @@ const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
       </div>
 
       {/* Filters */}
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <div
           className="flex justify-between items-center mb-2 cursor-pointer"
           onClick={() => setShowFilters(prev => !prev)}
@@ -274,12 +276,12 @@ const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
             ))}
           </>
         )}
-      </div>
+      </div> */}
 
       {/* Range */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2 cursor-pointer" onClick={() => setShowRange(prev => !prev)}>
-          <h3 className="font-medium">Range</h3>
+          <h3 className="font-medium">Giá</h3>
           <svg className={`h-4 w-4 transition-transform ${showRange ? 'rotate-0 text-blue-600' : 'rotate-180'}`}  fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
@@ -289,20 +291,20 @@ const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
           <div className="flex gap-2 items-center mb-2">
             <input
               type="number"
-              value={range[0]}
+              //value={range[0]}
               onChange={(e) => setRange([Number(e.target.value), range[1]])}
               onKeyDown={handleRangeEnter}
               className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
-              placeholder="From"
+              placeholder="Từ"
             />
             <span className="text-gray-400">–</span>
             <input
               type="number"
-              value={range[1]}
+              //value={range[1]}
               onChange={(e) => setRange([range[0], Number(e.target.value)])}
               onKeyDown={handleRangeEnter}
               className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
-              placeholder="To"
+              placeholder="Đến"
             />
           </div>
         )}
@@ -311,7 +313,7 @@ const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
       {/* Color Filters */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2 cursor-pointer" onClick={() => setShowColorFilters(prev => !prev)}>
-          <h3 className="font-medium">Colors</h3>
+          <h3 className="font-medium">Màu sắc</h3>
           <svg className={`h-4 w-4 transition-transform ${showColorFilters ? 'rotate-0 text-blue-600' : 'rotate-180'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
@@ -342,7 +344,7 @@ const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
       {/* Rating */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2 cursor-pointer" onClick={() => setShowRatingFilters(prev => !prev)} >
-          <h3 className="font-medium">Rating</h3>
+          <h3 className="font-medium">Đánh giá</h3>
           <svg className={`h-4 w-4 transition-transform ${showRatingFilters ? 'rotate-0 text-blue-600' : 'rotate-180'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import ProductCard from './ProductCard';
 import api from '../../lib/axios';
 import { API_ENDPOINTS } from '../../lib/apiConfig';
@@ -16,6 +17,7 @@ interface Product {
     inStock: boolean;
     isAddedToCart?: boolean;
     company: string;
+    companyId: number;
     category: string;
     rating: number;
   }
@@ -33,6 +35,7 @@ const fallbackProducts: Product[] = [
       oldPrice: 55,
       inStock: true,
       company: 'Omnires Ltd.',
+      companyId: 101,
       category: 'Bathroom',
       rating: 4.6
     },
@@ -48,6 +51,7 @@ const fallbackProducts: Product[] = [
       oldPrice: 64,
       inStock: true,
       company: 'GoodHome',
+      companyId: 102,
       category: 'Bathroom',
       rating: 4.8
     },
@@ -64,6 +68,7 @@ const fallbackProducts: Product[] = [
       inStock: true,
       isAddedToCart: true,
       company: 'GoodHome',
+      companyId: 102,
       category: 'Hardware',
       rating: 4.3
     },
@@ -79,12 +84,14 @@ const fallbackProducts: Product[] = [
       oldPrice: 64,
       inStock: false,
       company: 'Amber Decor',
+      companyId: 103,
       category: 'Lighting',
       rating: 4.1
     }
   ];
   
 export const ProductsSection: React.FC = () => {
+    const navigate = useNavigate();
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -115,15 +122,15 @@ export const ProductsSection: React.FC = () => {
     }, []);
 
     if (loading) {
-        return <div className="text-center mt-10 text-gray-600">Loading products...</div>;
+        return <div className="text-center mt-10 text-gray-600">Loading ...</div>;
     }
 
     return (
         <section className="py-6 px-20 bg-white">
             <div className="flex justify-between w-full mb-8">
-                <h2 className="text-3xl font-bold leading-tight text-neutral-950">Recommended products</h2>
-                <button className="flex gap-1 items-center text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
-                    <span>Show all recommended products</span>
+                <h2 className="text-3xl font-bold leading-tight text-neutral-950">Sản phẩm</h2>
+                <button onClick={() => navigate("/products")} className="flex gap-1 items-center text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
+                    <span>Xem tất cả sản phẩm</span>
                     <img src="arrowright.png" alt="Arrow right" className="w-4" />
                 </button>
             </div>

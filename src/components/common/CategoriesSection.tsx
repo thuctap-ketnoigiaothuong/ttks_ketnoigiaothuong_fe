@@ -1,6 +1,5 @@
-'use client';
-
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { CategoryCard } from './CategoryCard';
 import api from '../../lib/axios';
 import { API_ENDPOINTS } from '../../lib/apiConfig';
@@ -46,6 +45,7 @@ const fallbackCategories: Category[] = [
 ];
 
 const CategoriesSection = () => {
+    const navigate = useNavigate();
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -77,16 +77,16 @@ const CategoriesSection = () => {
     return (
         <section className="py-6 px-20 bg-white">
             <div className="flex flex-wrap gap-5 justify-between mt-5 max-md:mt-10">
-                <h2 className="text-3xl font-bold leading-tight text-neutral-950">Recommended Categories</h2>
-                <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
-                    <span>Show all categories</span>
+                <h2 className="text-3xl font-bold leading-tight text-neutral-950">Lĩnh vực</h2>
+                <button onClick={() => navigate("/categories")} className="flex gap-1 items-center my-auto text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
+                    <span>Xem tất cả lĩnh vực</span>
                     <img src="arrowright.png" alt="Arrow right" className="w-4" />
                 </button>
             </div>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {loading ? (
-                    <p className="text-gray-500 col-span-full text-center">Loading categories...</p>
+                    <p className="text-gray-500 col-span-full text-center">Loading ...</p>
                 ) : (
                     categories
                         .filter((category) => category.parentCategoryID !== null)

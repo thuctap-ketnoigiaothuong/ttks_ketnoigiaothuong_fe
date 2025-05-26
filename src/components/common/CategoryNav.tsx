@@ -7,7 +7,7 @@ export function CategoryNav() {
     const isActive = (path: string) => location.pathname === path;
 
     return (
-        <nav className="flex flex-wrap gap-5 justify-between px-20 py-4 w-full bg-blue-50 border-b border-gray-200 max-md:px-5 max-md:max-w-full">
+        <nav className="flex flex-wrap gap-5 justify-between px-20 py-4 w-full bg-blue-100 border-b border-gray-200 max-md:px-5 max-md:max-w-full">
             <div className="flex flex-wrap gap-10 items-center my-auto font-semibold leading-6 text-neutral-950 max-md:max-w-full">
                 <button
                     onClick={() => navigate('/')}
@@ -24,6 +24,14 @@ export function CategoryNav() {
                     }`}
                 >
                     GIỚI THIỆU
+                </button>
+                <button
+                    //onClick={() => navigate("/categories")}
+                    className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
+                        isActive('/categories') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
+                    }`}
+                >
+                    LĨNH VỰC
                 </button>
                 <button
                     onClick={() => navigate("/products")}
@@ -43,7 +51,7 @@ export function CategoryNav() {
                 </button>
             </div>
 
-            <div className="flex gap-9">
+            {/* <div className="flex gap-9">
                 <div
                     //onClick={() => navigate("/compare")}
                     className="cursor-pointer flex flex-col self-start text-sm font-semibold leading-relaxed text-center text-blue-600 whitespace-nowrap transition-transform duration-300 hover:scale-110"
@@ -81,7 +89,7 @@ export function CategoryNav() {
                     />
                     <span className={`mt-2 ${isActive('/cart') ? 'text-blue-800' : 'text-blue-600'}`}>CART</span>
                 </div>
-            </div>
+            </div> */}
         </nav>
     );
 }

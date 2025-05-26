@@ -27,6 +27,7 @@ interface Product {
     rating: number;
     discount: number;
     company: string;
+    companyId: number;
   }
   
 const fallbackProducts: Product[] = [
@@ -45,6 +46,7 @@ const fallbackProducts: Product[] = [
     rating: 4.5,
     discount: 20,
     company: 'Amber Lighting Co.',
+    companyId: 104,
     parameters: ['Bulb type: E27', 'Max power: 60W']
   },
   {
@@ -60,6 +62,7 @@ const fallbackProducts: Product[] = [
     rating: 4.8,
     discount: 25,
     company: 'EGLO Group',
+    companyId: 105,
     parameters: ['Set of 3', 'Standard GU10']
   },
   {
@@ -76,6 +79,7 @@ const fallbackProducts: Product[] = [
     rating: 4.2,
     discount: 30,
     company: 'LED Tech Co.',
+    companyId: 106,
     parameters: ['Luminous flux: 450lm', 'Pack of 3']
   },
   {
@@ -93,6 +97,7 @@ const fallbackProducts: Product[] = [
     rating: 4.6,
     discount: 25,
     company: 'LED Tech Co.',
+    companyId: 106,
     parameters: ['Wattage: 9W', 'Warm color']
   },
   {
@@ -110,6 +115,7 @@ const fallbackProducts: Product[] = [
     rating: 4.3,
     discount: 25,
     company: 'LED Tech Co.',
+    companyId: 106,
     parameters: ['Wattage: 10W', 'Pack of 2']
   },
   {
@@ -127,6 +133,7 @@ const fallbackProducts: Product[] = [
     rating: 4.7,
     discount: 25,
     company: 'LED Tech Co.',
+    companyId: 106,
     parameters: ['Dimmable', 'Wattage: 4W']
   },
   {
@@ -144,6 +151,7 @@ const fallbackProducts: Product[] = [
     rating: 4.4,
     discount: 25,
     company: 'Ladystena Ltd.',
+    companyId: 107,
     parameters: ['Warm light', 'Milky finish']
   },
   {
@@ -161,6 +169,7 @@ const fallbackProducts: Product[] = [
     rating: 4.1,
     discount: 25,
     company: 'LED Dial Inc.',
+    companyId: 108,
     parameters: ['Neutral color', 'Wattage: 7W']
   },
   {
@@ -177,6 +186,7 @@ const fallbackProducts: Product[] = [
     rating: 4.9,
     discount: 25,
     company: 'OmoKee Home',
+    companyId: 109,
     parameters: ['Material: aluminum', 'Includes handle']
   },
   {
@@ -194,6 +204,7 @@ const fallbackProducts: Product[] = [
     rating: 4.8,
     discount: 15,
     company: 'GoodHome Bathroom',
+    companyId: 110,
     parameters: ['Width: 35cm', 'Height: 12cm']
   },
   {
@@ -211,6 +222,7 @@ const fallbackProducts: Product[] = [
     rating: 4.3,
     discount: 15,
     company: 'Silicone Solutions',
+    companyId: 111,
     parameters: ['Size: 25x2 mm', 'Waterproof']
   },
   {
@@ -229,6 +241,7 @@ const fallbackProducts: Product[] = [
     rating: 4.7,
     discount: 15,
     company: 'Amber Lighting Co.',
+    companyId: 112,
     parameters: ['Bulb type: E27', 'Beam height: 12cm']
   }
 ];
@@ -326,7 +339,7 @@ const ProductListPage = () => {
     .slice(0, 4);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Breadcrumbs */}
       <div className="container mx-auto px-4 py-6">
         {/* Main content with sidebar and right section */}
@@ -364,17 +377,17 @@ const ProductListPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                   </svg>
                 </button>
-                <span className="ml-4 text-sm font-medium">{resultsCount} items found</span>
+                <span className="ml-4 text-sm font-medium">Tìm thấy {resultsCount} kết quả</span>
               </div>
   
               {/* Sorting */}
               <div className="flex items-center space-x-2">
-                <label className="text-sm">Sort:</label>
+                <label className="text-sm">Sắp xếp theo:</label>
                 <select className="border border-gray-300 rounded-md p-1 text-sm" value={sort} onChange={(e) => setSort(e.target.value)}>
-                  <option value="popular">Popular items</option>
-                  <option value="priceLow">Price low to high</option>
-                  <option value="priceHigh">Price high to low</option>
-                  <option value="newest">Newest first</option>
+                  <option value="newest">Mới nhất</option>
+                  <option value="popular">Phổ biến</option>
+                  <option value="priceLow">Giá từ thấp tới cao</option>
+                  <option value="priceHigh">Giá từ cao tới thấp</option>
                 </select>
               </div>
   
@@ -408,7 +421,7 @@ const ProductListPage = () => {
               <>
                 <div className={`grid ${view === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-6 mb-8`}>
                   {paginatedProducts.map(product => (
-                    <ProductCard product={product} />
+                    <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
   
@@ -454,7 +467,7 @@ const ProductListPage = () => {
       {/* Recommended Products */}
       <div className="bg-white py-10">
         <div className="container mx-auto px-4">
-          <h2 className="text-xl font-semibold mb-6">You may also like</h2>
+          <h2 className="text-2xl font-semibold mb-6">Có thể bạn sẽ thích</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {recommendedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />

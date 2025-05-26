@@ -1,6 +1,5 @@
-'use client';
-
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { EventCard } from './EventCard';
 import api from '../../lib/axios';
 import { API_ENDPOINTS } from '../../lib/apiConfig';
@@ -55,6 +54,7 @@ const fallbackEvents: Event[] = [
 ];
 
 export const EventsSection: React.FC = () => {
+    const navigate = useNavigate();
     const [events, setEvents] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -84,15 +84,15 @@ export const EventsSection: React.FC = () => {
     }, []);
 
     if (loading) {
-        return <div className="text-center mt-10 text-gray-600">Loading events...</div>;
+        return <div className="text-center mt-10 text-gray-600">Loading ...</div>;
     }
 
     return (
         <section className="py-6 px-20 bg-white">
             <div className="flex flex-wrap gap-5 justify-between mt-5 max-md:mt-10">
-                <h2 className="text-3xl font-bold leading-tight text-neutral-950">Events for you</h2>
-                <button className="flex gap-1 items-center my-auto text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
-                    <span>Show all events</span>
+                <h2 className="text-3xl font-bold leading-tight text-neutral-950">Sự kiện</h2>
+                <button onClick={() => navigate("/events")} className="flex gap-1 items-center my-auto text-base font-medium text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
+                    <span>Xem tất cả sự kiện</span>
                     <img src="arrowright.png" alt="Arrow right" className="w-4" />
                 </button>
             </div>

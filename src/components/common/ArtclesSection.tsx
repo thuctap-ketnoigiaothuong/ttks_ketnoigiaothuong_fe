@@ -1,6 +1,5 @@
-'use client';
-
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { ArticleCard } from './ArticleCard';
 import api from '../../lib/axios';
 import { API_ENDPOINTS } from '../../lib/apiConfig';
@@ -45,6 +44,7 @@ const fallbackArticles: Article[] = [
 ];
 
 export const ArticlesSection = () => {
+    const navigate = useNavigate();
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -75,9 +75,9 @@ export const ArticlesSection = () => {
     return (
         <section className="py-6 px-20 bg-white">
             <div className="flex flex-wrap gap-5 justify-between mt-5 w-full max-md:mt-10 max-md:max-w-full">
-                <h2 className="text-3xl font-bold leading-tight text-neutral-950">Hints for you</h2>
-                <button className="flex gap-1 items-center my-auto text-base font-medium leading-none text-right text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
-                    <span className="self-stretch my-auto">Show all hints</span>
+                <h2 className="text-3xl font-bold leading-tight text-neutral-950">Bài viết</h2>
+                <button onClick={() => navigate("/articles")} className="flex gap-1 items-center my-auto text-base font-medium leading-none text-right text-blue-600 transform transition-transform hover:translate-x-1 hover:underline">
+                    <span className="self-stretch my-auto">Xem tất cả bài viết</span>
                     <img
                         src="arrowright.png"
                         alt="Arrow right"
@@ -88,7 +88,7 @@ export const ArticlesSection = () => {
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {loading ? (
-                    <p className="text-gray-500 col-span-full text-center">Loading articles...</p>
+                    <p className="text-gray-500 col-span-full text-center">Loading ...</p>
                 ) : (
                     articles.map((article) => (
                         <ArticleCard
