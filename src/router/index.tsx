@@ -11,6 +11,8 @@ import CategoriesPage from '../pages/CategoriesPage';
 import ProductsPage from '../pages/ProductsPage';
 import ProductDetailPage from '../pages/ProductDetailPage';
 import CompanyProfilePage from '../pages/CompanyProfilePage';
+import EnterprisePage from '../pages/EnterprisePage';
+import CompaniesPage from '../pages/CompaniesPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -36,16 +38,19 @@ const router = createBrowserRouter([
             { index: true, Component: HomePage },
             { path: 'about', Component: AboutPage },
             { path: 'categories', Component: CategoriesPage },
-            { path: 'products',
+            {
+                path: 'products',
                 children: [
-                  { index: true, Component: ProductsPage },
-                  { path: ':productId', Component: ProductDetailPage },
+                    { index: true, Component: ProductsPage },
+                    { path: ':productId', Component: ProductDetailPage },
                 ],
             },
-            { path: 'companies',
+            {
+                path: 'companies',
                 children: [
-                //   { index: true, Component: ProductsPage },
-                  { path: ':companyId', Component: CompanyProfilePage },
+                    { index: true, Component: CompaniesPage },
+                    { path: ':companyId', Component: CompanyProfilePage },
+                    { path: ':companyId/enterprise', Component: EnterprisePage },
                 ],
             },
             {

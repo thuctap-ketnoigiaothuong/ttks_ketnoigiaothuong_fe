@@ -18,7 +18,7 @@ export function CategoryNav() {
                     TRANG CHỦ
                 </button>
                 <button
-                    //onClick={() => navigate("/about")}
+                    onClick={() => navigate('/about')}
                     className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
                         isActive('/about') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
                     }`}
@@ -26,7 +26,7 @@ export function CategoryNav() {
                     GIỚI THIỆU
                 </button>
                 <button
-                    onClick={() => navigate("/categories")}
+                    onClick={() => navigate('/categories')}
                     className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
                         isActive('/categories') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
                     }`}
@@ -34,7 +34,7 @@ export function CategoryNav() {
                     LĨNH VỰC
                 </button>
                 <button
-                    onClick={() => navigate("/products")}
+                    onClick={() => navigate('/products')}
                     className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
                         isActive('/products') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
                     }`}
@@ -42,7 +42,7 @@ export function CategoryNav() {
                     SẢN PHẨM
                 </button>
                 <button
-                    //onClick={() => navigate("/companies")}
+                    onClick={() => navigate('/companies')}
                     className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
                         isActive('/companies') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
                     }`}
