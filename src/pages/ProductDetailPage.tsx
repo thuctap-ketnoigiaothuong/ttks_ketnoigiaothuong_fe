@@ -32,6 +32,13 @@ interface DiscountTier {
     methods: { type: string; info: string }[];
   }
   
+  interface QA {
+    name: string;
+    email: string;
+    question: string;
+    answer?: string;
+  }
+
   interface Product {
     id: number;
     name: string;
@@ -54,6 +61,7 @@ interface DiscountTier {
     reviews?: Review[];
     shipping?: ShippingInfo;
     payments?: PaymentInfo;
+    questions?: QA[];
   }
   
   const fallbackProduct = {
@@ -110,6 +118,19 @@ interface DiscountTier {
         { type: "COD", info: "Thanh toán khi nhận hàng" },
       ],
     },
+    questions: [
+      {
+        name: "Nguyễn Văn C",
+        email: "c.nguyen@example.com",
+        question: "Sản phẩm này có bảo hành không?",
+        answer: "Sản phẩm được bảo hành 12 tháng chính hãng.",
+      },
+      {
+        name: "Lê Thị D",
+        email: "le.d@example.com",
+        question: "Có màu đen không ạ?",
+      },
+    ],    
   };
 
 const ProductDetailPage = () => {

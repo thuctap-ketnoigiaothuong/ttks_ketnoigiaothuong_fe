@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router';
 import api from '../../lib/axios';
 import { API_ENDPOINTS } from '../../lib/apiConfig';
 
@@ -72,6 +73,8 @@ const fallbackFilters: { [key: string]: FilterOption[] } = {
 const fallbackColors: string[] = ['red', 'brown', 'yellow', 'green', 'blue', 'indigo', 'purple', 'pink'];
 
 const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
+  const [searchParams] = useSearchParams();
+  
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [filters, setFilters] = useState<{ [key: string]: FilterOption[] }>({});
   const [colorFilters, setColorFilters] = useState<string[]>([]);
@@ -81,7 +84,7 @@ const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
   const [filtersLoaded, setFiltersLoaded] = useState(false);
 
   const [showSubcategories, setShowSubcategories] = useState(true);
-  const [showFilters, setShowFilters] = useState(true);
+  //const [showFilters, setShowFilters] = useState(true);
   const [showRange, setShowRange] = useState(true);
   const [showColorFilters, setShowColorFilters] = useState(true);
   const [showRatingFilters, setShowRatingFilters] = useState(true);
@@ -90,6 +93,18 @@ const FilterSection = ({ onFilterChange, fallbackProducts }: Props) => {
   const [selectedFilterIds, setSelectedFilterIds] = useState<number[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
+
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get('category');
+    if (categoryFromUrl && subcategories.length > 0) {
+      const matched = subcategories.find(
+        (subcat) => subcat.name.toLowerCase() === categoryFromUrl.toLowerCase()
+      );
+      if (matched) {
+        setSelectedSubcatIds([matched.id]);
+      }
+    }
+  }, [searchParams, subcategories]);
 
   useEffect(() => {
     const savedFilters = localStorage.getItem('filters');
