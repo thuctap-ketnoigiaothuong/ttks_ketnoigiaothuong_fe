@@ -7,6 +7,7 @@ import AdminLayout from '../layouts/AdminLayout';
 
 import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
+import CategoriesPage from '../pages/CategoriesPage';
 import ProductsPage from '../pages/ProductsPage';
 import ProductDetailPage from '../pages/ProductDetailPage';
 import CompanyProfilePage from '../pages/CompanyProfilePage';
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
         children: [
             { index: true, Component: HomePage },
             { path: 'about', Component: AboutPage },
+            { path: 'categories', Component: CategoriesPage },
             { path: 'products',
                 children: [
                   { index: true, Component: ProductsPage },

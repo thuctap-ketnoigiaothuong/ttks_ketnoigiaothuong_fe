@@ -26,7 +26,7 @@ export function CategoryNav() {
                     GIỚI THIỆU
                 </button>
                 <button
-                    //onClick={() => navigate("/categories")}
+                    onClick={() => navigate("/categories")}
                     className={`text-neutral-950 font-medium px-1 py-2 border-b-3 ${
                         isActive('/categories') ? 'border-blue-600' : 'border-transparent hover:border-blue-600'
                     }`}

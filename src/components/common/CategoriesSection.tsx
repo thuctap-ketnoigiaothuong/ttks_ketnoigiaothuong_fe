@@ -91,7 +91,7 @@ const CategoriesSection = () => {
                     categories
                         .filter((category) => category.parentCategoryID !== null)
                         .map((category, index) => (
-                            <CategoryCard key={index} name={category.categoryName} image={category.categoryImage} />
+                            <CategoryCard key={index} categoryID={category.categoryID} categoryName={category.categoryName} categoryImage={category.categoryImage} />
                         ))
                 )}
             </div>
